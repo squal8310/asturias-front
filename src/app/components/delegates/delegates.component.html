@@ -1,0 +1,48 @@
+<app-home></app-home>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-lg-4">
+            <div class="register-form bg-light mt-4 p-4">
+                <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister(registerForm.value)" class="row g-3">
+                    <h4>{{registerUser}}</h4>
+                    <div class="col-12">
+                        <label>* Categoria</label>
+                        <select class="form-select" formControlName="category" name="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 1)">
+                            <option selected>Seleccione una categoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                          </select>
+                    </div>
+                    <div class="col-12" *ngIf="subCatalog1.length > 0">
+                        <label>* SubCategoria</label>
+                        <select class="form-select" formControlName="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 2)">
+                            <option selected>Seleccione una subcategoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                          </select>
+                    </div>
+                    <div class="col-12" *ngIf="subCatalog2.length > 0">
+                        <label>* SubCategoria</label>
+                        <select class="form-select" formControlName="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
+                            <option selected>Seleccione una subcategoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <label>* Nombre Delegado:</label>
+                        <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre delegado">
+                    </div>
+                    <div class="col-12">
+                        <label>* Apellidos:</label>
+                        <input type="text" formControlName="lastName" name="lastName" class="form-control" placeholder="Apellidos">
+                    </div>                    
+                    <div class="col-12">
+                        <label>* Telefono:</label>
+                        <input type="number" formControlName="telefono" name="telefono" class="form-control" placeholder="Telefono">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark float-end">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
