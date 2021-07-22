@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {  Subscription } from 'rxjs';
+import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +12,17 @@ export class HomeComponent implements OnInit {
   isLoging: boolean= false;
 
   subscription: Subscription;
+  menu: [];
 
-  constructor() { }
+  constructor(private catMenuServ: CatalogsServiceService) { }
 
   ngOnInit() {
+    this.catMenuServ.getMenu(50000).then(res=>{
+      res.text().then(rs=>{
+       this.menu =  JSON.parse(rs);
+       console.log("--> ", this.menu)
+      });
+    });
   }
 
   ngOnDestroy() {

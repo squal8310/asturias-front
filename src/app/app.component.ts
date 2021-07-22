@@ -6,6 +6,8 @@ import {
   Validators,
   ReactiveFormsModule
 } from "@angular/forms";
+import axios from "axios";
+import { CommonServiceService } from "./core/services/common-service.service";
 
 @Component({
   selector: "my-app",
@@ -18,7 +20,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private entrySub: Subscription;
   myForm: FormGroup;
   showValue = false;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private commonServ: CommonServiceService<String>) {}
 
    ngOnInit() {
     this.myForm = this.fb.group({
@@ -64,5 +67,26 @@ export class AppComponent implements OnInit, OnDestroy {
       .get("lastName")
       .setValidators([Validators.minLength(5), Validators.maxLength(15)]);
     this.myForm.get("lastName").updateValueAndValidity();
+  }
+
+
+  private confReqInterceptor=()=>{
+    axios.interceptors.request.use((req)=>{
+      const url = req.url;
+      if(url.includes('oauth/token')){
+        return req;
+      }
+      const token = this.commonServ.getToken();
+      if(token){
+        req.headers.Authorization = `Bearer ${token}`
+      }
+      return req;
+    }, (error)=>{
+      return Promise.reject(error);
+    });
+  }
+
+  private configureResponseInterceptor=()=>{
+    // const url: string = requesponse
   }
 }

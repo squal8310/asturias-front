@@ -13,7 +13,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [ AuthorizatedGuardGuard ] },
   { path: 'login', component: LoginComponent },
   {
-    path: "delegates",
+    path: "players",
     component: DelegatesComponent
  },
  {

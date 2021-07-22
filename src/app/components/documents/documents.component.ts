@@ -55,7 +55,7 @@ export class DocumentsComponent implements OnInit {
   
     this.uploadService.upload(this.selectedFiles);
 
-    this.regDelegate.saveDelegate(this.frmValid);
+    //this.regDelegate.saveDelegate(this.frmValid);
     // .subscribe(
     //   event => {
     //     if (event.type === HttpEventType.UploadProgress) {

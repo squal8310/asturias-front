@@ -1,18 +1,53 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import { URL } from 'src/environments/environment';
+import { StorageService } from '../storage.service';
+import { CommonServiceService } from './common-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogsServiceService {
 
-  constructor() { }
+  constructor(private stServ: StorageService) { }
+
+  getMenu=(catNum: number)=>{
+    let tokendtr = this.stServ.getCurrentSession();
+   console.log("--------> ", tokendtr);
+    return fetch(URL+ "/api/menu/list", {
+      method: 'POST',
+      body: JSON.stringify({attr1: catNum}),
+      headers: {
+        "Authorization": `Bearer ${tokendtr.token}`,
+        "Content-Type": "application/json"
+      }
+    }); 
+  }
 
   getCategories=(catNum: number)=>{
-    return axios.post("http://localhost:8080/categories/list", {attr1: catNum});
+    let tokendtr = this.stServ.getCurrentSession();
+   console.log("--------> ", tokendtr);
+    return fetch(URL+ "/api/categories/list", {
+      method: 'POST',
+      body: JSON.stringify({attr1: catNum}),
+      headers: {
+        "Authorization": `Bearer ${tokendtr.token}`,
+        "Content-Type": "application/json"
+      }
+    }); 
   }
 
-  getCategoriesAnd=(catNum1: number, catNum2:number)=>{
-    return axios.post("http://localhost:8080/categories/list", {attr1: catNum1, attr2: catNum2 });
+  getPositions=(catNum: number)=>{
+    let tokendtr = this.stServ.getCurrentSession();
+   console.log("--------> ", tokendtr);
+    return fetch(URL+ "/api/categories/list", {
+      method: 'POST',
+      body: JSON.stringify({attr1: catNum}),
+      headers: {
+        "Authorization": `Bearer ${tokendtr.token}`,
+        "Content-Type": "application/json"
+      }
+    }); 
   }
+
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { URL } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,23 +22,13 @@ export class UploadFileServiceService {
     }
 
     console.log("files: "+formData);
-    // return axios.post("http://localhost:8080/documents/save", formData, {
-    //   headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //   },
-    // });
-
-    return axios({
-      // Endpoint to send files
-      url: "http://localhost:8080/documents/save",
-      method: "POST",
+    return fetch(`${URL}/public/documents/upload`, {
+      method: 'POST',
+      body: formData,
       headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      // Attaching the form data
-      data: formData,
-    });
-    
+        // 'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });     
   }
 
   getFiles() {

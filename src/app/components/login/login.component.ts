@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   @Output()
   public emit: EventEmitter<boolean> = new EventEmitter<boolean>();
   message:boolean;
+  errorValid: boolean= false;
   subscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -45,24 +46,35 @@ export class LoginComponent implements OnInit {
                 
               }
             
-              public submitLogin(): void {
-                this.submitted = true;
-                this.error = null;
-                let sess : Session = new Session();
-                let user : User = new User();
-                 
-                sess.token= 'sfsfsfddsf4534543';
-                user.surname = "club1";
-                user.password = "pass";
-                sess.user= user;
-                
-                this.isLoging = true;
-                this.router.navigate(['/home']);
-                // if(this.loginForm.valid){
-                //   this.authenticationService.login(new LoginObject(this.loginForm.value)).then(
-                //     (data: AxiosResponse) => {}
-                //   )
-                // }
+              public submitLogin(): void {                
+                if(this.loginForm.valid){
+                  this.authenticationService.loginFetch(new LoginObject(this.loginForm.value))
+                  .then((response) => {
+                    response
+                    .text()
+                    .then(rs=>{
+
+                     let jsRs = JSON.parse(rs);
+                     if(jsRs.error){
+                      this.errorValid = true;
+                     }else{
+                          this.submitted = true;
+                          let sess : Session = new Session();
+                          sess.token = jsRs.access_token;
+                          let user : User = new User();
+                          user.name = "sdfsdf";
+                          sess.user = user;
+                          this.isLoging = true;
+                          this.storageService.setCurrentSession(sess);
+                          console.log("token: ", jsRs.access_token);
+                          this.router.navigate(['/home']);
+                     }
+                    });
+                  
+                  })
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
+                }
               }
             
               ngOnDestroy() {

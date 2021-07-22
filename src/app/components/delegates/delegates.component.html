@@ -3,41 +3,119 @@
     <div class="row">
         <div class="col-md-4 offset-lg-4">
             <div class="register-form bg-light mt-4 p-4">
-                <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister(registerForm.value)" class="row g-3">
+                <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister()" class="row g-3">
                     <h4>{{registerUser}}</h4>
                     <div class="col-12">
                         <label>* Categoria</label>
                         <select class="form-select" formControlName="category" name="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 1)">
-                            <option selected>Seleccione una categoria</option>
+                            <option value="0" selected="selected">Seleccione una categoría</option>
                             <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
                           </select>
+                    </div>
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['category'].invalid && (registerForm.controls['category'].dirty || registerForm.controls['category'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['category'].errors.required">
+                                Favor de seleccionar una categoría
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12" *ngIf="subCatalog1.length > 0">
                         <label>* SubCategoria</label>
                         <select class="form-select" formControlName="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 2)">
-                            <option selected>Seleccione una subcategoria</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                            <option value="0" selected>Seleccione una subcategoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog1">{{cat.name}}</option>
                           </select>
                     </div>
                     <div class="col-12" *ngIf="subCatalog2.length > 0">
                         <label>* SubCategoria</label>
                         <select class="form-select" formControlName="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
-                            <option selected>Seleccione una subcategoria</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                            <option value="0" selected>Seleccione una subcategoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog2">{{cat.name}}</option>
+                          </select>
+                    </div>
+                    <div class="col-12" *ngIf="subCatalog3.length > 0">
+                        <label>* SubCategoria</label>
+                        <select class="form-select" formControlName="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
+                            <option value="0" selected="selected">Seleccione una subcategoria</option>
+                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog3">{{cat.name}}</option>
                           </select>
                     </div>
                     <div class="col-12">
-                        <label>* Nombre Delegado:</label>
-                        <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre delegado">
+                        <label>* Nombre Jugador:</label>
+                         <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre jugador" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['name'].errors.required">
+                                Introducir nombre del jugador
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label>* Apellidos:</label>
                         <input type="text" formControlName="lastName" name="lastName" class="form-control" placeholder="Apellidos">
-                    </div>                    
+                    </div> 
+                    
                     <div class="col-12">
+                        <div *ngIf="registerForm.controls['lastName'].invalid && (registerForm.controls['lastName'].dirty || registerForm.controls['lastName'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['lastName'].errors.required">
+                                Introducir apellidos del jugador
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="col-12">
+                        <label>* CURP:</label>
+                        <input type="text" formControlName="curp" name="curp" class="form-control" placeholder="CURP">
+                    </div>  
+                    
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['curp'].invalid && (registerForm.controls['curp'].dirty || registerForm.controls['curp'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['curp'].errors.required">
+                                Introducir curp del jugador
+                            </div>
+                        </div>
+                    </div>               
+                    <!-- <div class="col-12">
                         <label>* Telefono:</label>
                         <input type="number" formControlName="telefono" name="telefono" class="form-control" placeholder="Telefono">
                     </div>
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['telefono'].invalid && (registerForm.controls['telefono'].dirty || registerForm.controls['telefono'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['telefono'].errors.required">
+                                Introducir número del jugador
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-12">
+                        <label>* Posición</label>
+                        <select class="form-select" formControlName="position" aria-label="Default select example" >
+                            <option value="0" selected>Seleccione una posición</option>
+                            <option value="{{pos.attr2}}" *ngFor="let pos of positions">{{pos.value}}</option>
+                          </select>
+                    </div>  
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['position'].invalid && (registerForm.controls['position'].dirty || registerForm.controls['position'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['position'].errors.required">
+                                Introducir posición
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="col-12">
+                        <label>* Número:</label>
+                        <input type="number" formControlName="number" name="number" class="form-control" placeholder="Número">
+                    </div>
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['number'].invalid && (registerForm.controls['number'].dirty || registerForm.controls['number'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['number'].errors.required">
+                                Introducir número del jugador
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-12">
+                        <div *ngIf="incompleteFrm" class="frm-err">
+                                Favor de completar formulario
+                        </div>
+                    </div>  
                     <div class="col-12">
                         <button type="submit" class="btn btn-dark float-end">Registrar</button>
                     </div>

@@ -12,12 +12,13 @@ import { CommonServiceService } from 'src/app/core/services/common-service.servi
 export class DelegatesComponent implements OnInit {
 
   public registerForm: FormGroup;
-  public submitted: Boolean = false;
+  public incompleteFrm: Boolean = false;
   public error: {code: number, message: string} = null;
   public catalogsJson:[] = [];
   public subCatalog1: [] = [];
   public subCatalog2: [] = [];
   public subCatalog3: [] = [];
+  public positions: [] = [];
 
   constructor(private formBuilder: FormBuilder, 
               private catServ: CatalogsServiceService,
@@ -28,11 +29,26 @@ export class DelegatesComponent implements OnInit {
 
     this.initForm();
     this.initCategories(10000);
+    this.initPositions(80000);
+  }
+
+  initPositions=(catNum: number)=>{
+    this.catServ.getCategories(catNum).then((cat)=>{
+      cat
+      .text()
+      .then((txtResp)=>{
+        this.positions = JSON.parse(txtResp);
+      });
+    });
   }
 
   initCategories=(catNum: number)=>{
-    this.catServ.getCategories(catNum).then(cat=>{
-      this.catalogsJson = cat.data;
+    this.catServ.getCategories(catNum).then((cat)=>{
+      cat
+      .text()
+      .then((txtResp)=>{
+        this.catalogsJson = JSON.parse(txtResp);
+      });
     });
   }
 
@@ -40,24 +56,28 @@ export class DelegatesComponent implements OnInit {
     
     console.log("cate: "+whatCatalog);
     this.catServ.getCategories(catNum).then(cat=>{
-      console.log("cate: "+whatCatalog);
-      switch(whatCatalog){
-        case 1:
-          if(cat.data.length > 0){
-            this.subCatalog1 = cat.data;
-          }
-        break;
-        case 2:
-          if(cat.data.length > 0){
-            this.subCatalog2 = cat.data;
-          }
-        break;
-        case 3:
-          if(cat.data.length > 0){
-            this.subCatalog3 = cat.data;
-          }
-        break;
-      }
+      cat
+      .text()
+      .then((txtResp)=>{
+        let result = JSON.parse(txtResp);
+        switch(whatCatalog){
+          case 1:
+            if(result.length > 0){
+              this.subCatalog1 = result;
+            }
+          break;
+          case 2:
+            if(result.length > 0){
+              this.subCatalog2 = result;
+            }
+          break;
+          case 3:
+            if(result.length > 0){
+              this.subCatalog3 = result;
+            }
+          break;
+        }
+      });
     });
   }
 
@@ -66,13 +86,22 @@ export class DelegatesComponent implements OnInit {
       category: ['', Validators.required],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
-      telefono: ['', Validators.required]
+      curp: ['', Validators.required], 
+      position: ['', Validators.required],
+      number: ['', Validators.required]
+
     });
   }
 
-  submitregister=(formDat?: NgForm)=>{
-    window['formRegisterDelegates'] = JSON.stringify(this.registerForm.value);
-    this.commonServ.emit(JSON.stringify(this.registerForm.value));
-    this.router.navigate(['/documents']);
+  submitregister=()=>{
+    console.log("eeerror frm");
+    if(this.registerForm.valid){
+      window['formRegisterDelegates'] = JSON.stringify(this.registerForm.value);
+      this.commonServ.emit(JSON.stringify(this.registerForm.value));
+      this.router.navigate(['/documents']);
+      
+    }else{
+      this.incompleteFrm = true;
+    }
   }
 }
