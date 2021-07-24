@@ -6,12 +6,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item  menuIt.submenus > 0 ? 'dropdown':''" *ngFor="let menuIt of menu; let i=index;">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown"  *ngFor="let menuIt of menu; let i=index;">
+                    <a class="nav-link" [ngClass]="{'dropdown-toggle': menuIt.submenus.length > 0}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{menuIt.name}}
                     </a>
-                    
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="menuIt.submenus.length > 0">
                         <li *ngFor="let subm of menuIt.submenus">
                             <a class="dropdown-item" [routerLink]="[subm.link]">{{subm.name}}</a></li>
                     </ul>

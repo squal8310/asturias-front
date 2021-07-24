@@ -1,26 +1,120 @@
 <app-home></app-home>
-<div *ngIf="currentFile" class="progress">
-    <div
-      class="progress-bar progress-bar-info progress-bar-striped"
-      role="progressbar"
-      attr.aria-valuenow="{{ progress }}"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      [ngStyle]="{ width: progress + '%' }"
-    >
-      {{ progress }}%
+<div class="container">
+  <div class="row">
+      <div class="col-lg-6 col-md-6 offset-md-4">
+          <div class=" bg-light mt-4 p-4">
+            <div *ngIf="currentFile" class="progress">
+              <div
+                class="progress-bar progress-bar-info progress-bar-striped"
+                role="progressbar"
+                attr.aria-valuenow="{{ progress }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [ngStyle]="{ width: progress + '%' }"
+              >
+                {{ progress }}%
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label> Fotografía</label><br>
+          <label class="btn btn-default">
+            <input type="file" name="file" (change)="selectFile($event, 0)" />
+          </label>
+        </div>
     </div>
   </div>
-  
-  <label class="btn btn-default">
-    <input type="file" name="file" multiple (change)="selectFile($event)" />
-  </label>
-  
-  <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">
-    Upload
-  </button>
-  
-  <div class="alert alert-light" role="alert">{{ message }}</div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>Acta de nacimiento</label>
+          <label class="btn btn-default">
+            <input type="file" name="file" selected (change)="selectFile($event, 1)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>Carta responsiva</label>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 2)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>CURP</label><br>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 3)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>Credencial escolar</label>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 4)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>INE (Papá o Mamá)</label>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 5)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>Certificado médico</label>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 6)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          <label>Formato federación</label>
+          <label class="btn btn-default">
+            
+            <input type="file" name="file" selected (change)="selectFile($event, 7)" />
+          </label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+        <div class=" bg-light mt-4 p-4">
+          
+          <div class="alert alert-light" *ngIf="frmInValid" role="alert">{{ message }}</div>
+          <button class="btn btn-success" (click)="upload()">
+            Subir
+          </button>
+        </div>
+    </div>
+  </div>
   
   <div class="card">
     <div class="card-header">List of Files</div>
@@ -33,3 +127,6 @@
       </li>
     </ul>
   </div>
+</div>
+  
+  
