@@ -64,16 +64,22 @@ export class DelegatesComponent implements OnInit {
           case 1:
             if(result.length > 0){
               this.subCatalog1 = result;
+            }else{
+              this.subCatalog1 = [];
             }
           break;
           case 2:
             if(result.length > 0){
               this.subCatalog2 = result;
+            }else{
+              this.subCatalog2 = [];
             }
           break;
           case 3:
             if(result.length > 0){
               this.subCatalog3 = result;
+            }else{
+              this.subCatalog3 = [];
             }
           break;
         }
@@ -84,6 +90,9 @@ export class DelegatesComponent implements OnInit {
   initForm=()=>{
     this.registerForm = this.formBuilder.group({
       category: ['', Validators.required],
+      subCategory1: [''],
+      subCategory2: [''],
+      subCategory3: [''],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       curp: ['', Validators.required], 
@@ -94,7 +103,6 @@ export class DelegatesComponent implements OnInit {
   }
 
   submitregister=()=>{
-    console.log("eeerror frm");
     if(this.registerForm.valid){
       window['formRegisterDelegates'] = JSON.stringify(this.registerForm.value);
       this.commonServ.emit(JSON.stringify(this.registerForm.value));

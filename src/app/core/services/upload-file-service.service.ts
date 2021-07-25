@@ -11,9 +11,9 @@ export class UploadFileServiceService {
   
   constructor() { }
 
-  upload(selectedFiles: FormData) {
+  upload(selectedFiles: FormData, id:string) {
     
-    return fetch(`${URL}/public/documents/upload`, {
+    return fetch(`${URL}/public/documents/upload/${id}`, {
       method: 'POST',
       body: selectedFiles,
       headers: {

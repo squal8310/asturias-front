@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import axios from 'axios';
+import { URL } from 'src/environments/environment';
 import { UserLigue } from '../models/user-ligue.model';
 import { StorageService } from '../storage.service';
 
@@ -12,21 +13,51 @@ export class RegisterDelegatesService {
  
   constructor(private stServ: StorageService) { }
 
-  gettest=()=>{
-    return new EventSource("http://localhost:8080/public/delegates/register");
-    //return axios.get<String>("http://localhost:8080/asturiasapp/register");
-  }
-
-  saveDelegate=(formData:{})=>{
+  savePlayers=()=>{
     let userLigue: UserLigue= new UserLigue();
     let formDataJs = JSON.parse( window['formRegisterDelegates']);
-    userLigue.municipio = formDataJs['category'];
+    const tokendt = this.stServ.getCurrentSession();
+    userLigue.cat = formDataJs['category'];
+    userLigue.subcategoria1 = formDataJs['subCategory1'];
+    userLigue.subcategoria2 = formDataJs['subCategory2'];
+    userLigue.subcategoria3 = formDataJs['subCategory3'];
     userLigue.name = formDataJs['name'];
     userLigue.lastName = formDataJs['lastName'];
-    userLigue.telefono = formDataJs['telefono'];
+    userLigue.curp = formDataJs['curp'];
+    userLigue.position = formDataJs['position'];
+    userLigue.noPlayer = formDataJs['number'];
+    userLigue.tipo = 1;
+     return fetch(`${URL}/api/players/register`, {
+       method: 'POST',
+       body: JSON.stringify(userLigue),
+       headers: {
+         "Authorization": `Bearer ${tokendt.token}`,
+         "Content-Type": "application/json"
+       }
+     }); 
+  }
 
-    let tokendtr = this.stServ.getCurrentSession();
-    console.log("userligue: "+userLigue);
-    return axios.post("http://localhost:8080/public/delegates/register", userLigue);
+  saveDelegate=()=>{
+    let userLigue: UserLigue= new UserLigue();
+    let formDataJs = JSON.parse( window['formRegisterDelegates']);
+    const tokendt = this.stServ.getCurrentSession();
+    userLigue.cat = formDataJs['category'];
+    userLigue.subcategoria1 = formDataJs['subCategory1'];
+    userLigue.subcategoria2 = formDataJs['subCategory2'];
+    userLigue.subcategoria3 = formDataJs['subCategory3'];
+    userLigue.name = formDataJs['name'];
+    userLigue.lastName = formDataJs['lastName'];
+    userLigue.curp = formDataJs['curp'];
+    userLigue.position = formDataJs['position'];
+    userLigue.noPlayer = formDataJs['number'];
+
+     return fetch(`${URL}/api/players/register`, {
+       method: 'POST',
+       body: JSON.stringify(userLigue),
+       headers: {
+         "Authorization": `Bearer ${tokendt.token}`,
+         "Content-Type": "application/json"
+       }
+     }); 
   }
 }

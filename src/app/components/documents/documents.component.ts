@@ -79,25 +79,22 @@ export class DocumentsComponent implements OnInit {
       //   this.message = "Faltan archivos por agregar";
       // }else{
         
-         this.uploadService.upload(this.formData);
+         
       // }
 
 
-    //this.regDelegate.saveDelegate(this.frmValid);
-    // .subscribe(
-    //   event => {
-    //     if (event.type === HttpEventType.UploadProgress) {
-    //       this.progress = Math.round(100 * event.loaded / event.total);
-    //     } else if (event instanceof HttpResponse) {
-    //       this.message = event.body.message;
-    //       this.fileInfos = this.uploadService.getFiles();
-    //     }
-    //   },
-    //   err => {
-    //     this.progress = 0;
-    //     this.message = 'Could not upload the file!';
-    //     this.currentFile = undefined;
-    //   });
+    this.regDelegate.savePlayers()
+    .then(
+      response => {
+        response.text().then(responseText=>{
+          let obj = JSON.parse(responseText);
+
+          this.uploadService.upload(this.formData, obj.id);
+        });
+      },
+      err => {
+        console.log("Registro no exitoso: ", err);
+      });
   
   }
 }

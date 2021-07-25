@@ -3,6 +3,7 @@ export class UserLigue {
 	id: number= 0;
 	name: string = '' ;
 	lastName: string = '';
+	curp: string = '';
 	telefono: number= 0;
 	club: number= 0;
 	estado: number= 0;
@@ -25,10 +26,8 @@ export class UserLigue {
 	noPlayer: number= 0;
 	position: number= 0;
 	cat: number = 0;
-
 	subcategoria1: number = 0;
-
 	subcategoria2: number = 0;
-
 	subcategoria3: number = 0;
+	tipo: number = 0;
 }

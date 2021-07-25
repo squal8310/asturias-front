@@ -17,10 +17,9 @@ export class HomeComponent implements OnInit {
   constructor(private catMenuServ: CatalogsServiceService) { }
 
   ngOnInit() {
-    this.catMenuServ.getMenu(50000).then(res=>{
+    this.catMenuServ.getMenu(70000).then(res=>{
       res.text().then(rs=>{
        this.menu =  JSON.parse(rs);
-       console.log("--> ", this.menu)
       });
     });
   }
