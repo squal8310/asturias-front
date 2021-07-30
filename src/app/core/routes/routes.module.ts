@@ -7,14 +7,19 @@ import { LoginComponent } from 'src/app/components/login/login.component';
 import { DelegatesComponent } from 'src/app/components/delegates/delegates.component';
 import { AppComponent } from 'src/app/app.component';
 import { DocumentsComponent } from 'src/app/components/documents/documents.component';
+import { PlayersComponent } from 'src/app/components/players/players.component';
 
 const appRoutes: Routes = [
-  { path: "", component: AppComponent, pathMatch: "full" },
+  { path: "", component: LoginComponent, pathMatch: "full" },
   { path: 'home', component: HomeComponent, canActivate: [ AuthorizatedGuardGuard ] },
   { path: 'login', component: LoginComponent },
   {
     path: "players",
     component: DelegatesComponent
+ },
+ {
+   path: "getPlayers",
+   component: PlayersComponent
  },
  {
    path: "documents",

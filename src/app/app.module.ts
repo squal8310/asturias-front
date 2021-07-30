@@ -10,10 +10,13 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoutesAppModule } from './core/routes/routes.module';
 import { DocumentsComponent } from './components/documents/documents.component';
+import { PlayersComponent } from './components/players/players.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 
 @NgModule({
-  imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule ],
-  declarations: [ AppComponent, HelloComponent, RegisterComponent, DelegatesComponent, LoginComponent, HomeComponent, DocumentsComponent ],
+  imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule, PdfViewerModule ],
+  declarations: [ AppComponent, HelloComponent, RegisterComponent, DelegatesComponent, LoginComponent, HomeComponent, DocumentsComponent, PlayersComponent ],
   bootstrap:    [ AppComponent ],
   exports: [RoutesAppModule]
 })

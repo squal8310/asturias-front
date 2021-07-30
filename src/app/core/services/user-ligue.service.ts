@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import axios from 'axios';
 import { URL } from 'src/environments/environment';
 import { UserLigue } from '../models/user-ligue.model';
 import { StorageService } from '../storage.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterDelegatesService {
+export class UserLigueService {
 
- 
   constructor(private stServ: StorageService) { }
 
-  savePlayers=()=>{
+  save=(tipo:number)=>{
     let userLigue: UserLigue= new UserLigue();
     let formDataJs = JSON.parse( window['formRegisterDelegates']);
     const tokendt = this.stServ.getCurrentSession();
@@ -26,7 +24,7 @@ export class RegisterDelegatesService {
     userLigue.curp = formDataJs['curp'];
     userLigue.position = formDataJs['position'];
     userLigue.noPlayer = formDataJs['number'];
-    userLigue.tipo = 1;
+    userLigue.tipo = tipo;
      return fetch(`${URL}/api/players/register`, {
        method: 'POST',
        body: JSON.stringify(userLigue),
@@ -35,5 +33,32 @@ export class RegisterDelegatesService {
          "Content-Type": "application/json"
        }
      }); 
+  }
+
+  get=(type:number)=>{
+    
+    const tokendt = this.stServ.getCurrentSession();
+  
+     return fetch(`${URL}/api/players/list/${type}/${0}/${10}`, {
+       method: 'POST',
+       body: JSON.stringify({}),
+       headers: {
+         "Authorization": `Bearer ${tokendt.token}`,
+         "Content-Type": "application/json"
+       }
+     }); 
+  }
+
+  getCredentials = (type: number, download:Boolean)=>{
+    const tokendt = this.stServ.getCurrentSession();
+  
+     return fetch(`${URL}/api/players/credentials/${type}/${download}`, {
+       method: 'POST',
+       body: JSON.stringify({}),
+       headers: {
+        "Authorization": `Bearer ${tokendt.token}`
+       }
+     }); 
+
   }
 }

@@ -30,4 +30,6 @@ export class UserLigue {
 	subcategoria2: number = 0;
 	subcategoria3: number = 0;
 	tipo: number = 0;
+	dateReg: string;
+	dateBirth: string;
 }
