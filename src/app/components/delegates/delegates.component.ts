@@ -1,16 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 import { CommonServiceService } from 'src/app/core/services/common-service.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-delegates',
   templateUrl: './delegates.component.html',
   styleUrls: ['./delegates.component.css']
 })
-export class DelegatesComponent implements OnInit {
+export class DelegatesComponent implements OnInit, AfterViewInit {
 
+  myDateValue= moment().format("MM-DD-YYYY");
+  minDate: Date;//moment().subtract(1, 'year').format("MM-DD-YYYY");
+  maxDate: Date;//= moment().format("MM-DD-YYYY");
   public registerForm: FormGroup;
   public incompleteFrm: Boolean = false;
   public error: {code: number, message: string} = null;
@@ -24,6 +28,9 @@ export class DelegatesComponent implements OnInit {
               private catServ: CatalogsServiceService,
               private commonServ: CommonServiceService<string>,
               private router: Router) { }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
 
@@ -31,6 +38,8 @@ export class DelegatesComponent implements OnInit {
     this.initCategories(10000);
     this.initPositions(80000);
   }
+
+  ngAfter
 
   initPositions=(catNum: number)=>{
     this.catServ.getCategories(catNum).then((cat)=>{
@@ -97,7 +106,8 @@ export class DelegatesComponent implements OnInit {
       lastName: ['', Validators.required],
       curp: ['', Validators.required], 
       position: ['', Validators.required],
-      number: ['', Validators.required]
+      number: ['', Validators.required],
+      dateBirth: ['', Validators.required]
 
     });
   }

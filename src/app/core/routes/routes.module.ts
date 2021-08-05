@@ -8,6 +8,8 @@ import { DelegatesComponent } from 'src/app/components/delegates/delegates.compo
 import { AppComponent } from 'src/app/app.component';
 import { DocumentsComponent } from 'src/app/components/documents/documents.component';
 import { PlayersComponent } from 'src/app/components/players/players.component';
+import { PlayersQrComponent } from 'src/app/components/players-qr/players-qr.component';
+import { CameraQrComponent } from 'src/app/components/camera-qr/camera-qr.component';
 
 const appRoutes: Routes = [
   { path: "", component: LoginComponent, pathMatch: "full" },
@@ -24,6 +26,14 @@ const appRoutes: Routes = [
  {
    path: "documents",
    component: DocumentsComponent
+},
+{
+  path: "players-qr",
+  component: PlayersQrComponent
+},
+{
+  path: "camera-qr",
+  component: CameraQrComponent
 }
 ];
 

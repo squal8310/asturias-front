@@ -59,6 +59,17 @@ export class UserLigueService {
         "Authorization": `Bearer ${tokendt.token}`
        }
      }); 
+  }
 
+  getById = (id: string)=>{
+    const tokendt = this.stServ.getCurrentSession();
+  
+     return fetch(`${URL}/api/players/get/${id}`, {
+       method: 'POST',
+       body: JSON.stringify({}),
+       headers: {
+        "Authorization": `Bearer ${tokendt.token}`
+       }
+     }); 
   }
 }

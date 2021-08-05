@@ -40,6 +40,27 @@
                             <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog3">{{cat.name}}</option>
                           </select>
                     </div>
+                     
+                    <div class="col-12">
+                        <label>* Fecha nacimiento:</label>
+                        <input type="text" 
+                               formControlName="dateBirth" 
+                               name="dateBirth" 
+                               class="form-control"
+                               [minDate]="minDate"
+                               [maxDate]="maxDate" 
+                               bsDatepicker 
+                               placeholder="dia/mes/año"
+                               [readonly]=true
+                               [(bsValue)]="myDateValue">
+                    </div>
+                    <div class="col-12">
+                        <div *ngIf="registerForm.controls['dateBirth'].invalid && (registerForm.controls['dateBirth'].dirty || registerForm.controls['dateBirth'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['dateBirth'].errors.required">
+                                Fecha nacimiento
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12">
                         <label>* Nombre Jugador:</label>
                          <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre jugador" required>
@@ -110,7 +131,7 @@
                                 Introducir número del jugador
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-12">
                         <div *ngIf="incompleteFrm" class="frm-err">
                                 Favor de completar formulario

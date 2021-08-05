@@ -31,6 +31,7 @@ export class DocumentsComponent implements OnInit {
   public frmValid2: any;
   public  frmInValid: boolean = false;
   formData: FormData = new FormData();
+  dataSaved: boolean = true;
 
   constructor(private commonServ: CommonServiceService<string>, 
               private regDelegate: RegisterDelegatesService,
@@ -90,6 +91,7 @@ export class DocumentsComponent implements OnInit {
           let obj = JSON.parse(responseText);
 
           this.uploadService.upload(this.formData, obj.id);
+          this.dataSaved = true;
         });
       },
       err => {

@@ -115,9 +115,15 @@
         </div>
     </div>
   </div>
-  
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-md-4">
+      <div *ngIf="dataSaved" class="alert alert-success" role="alert">
+        ¡Se guardo correctamente sus datos!
+      </div>
+    </div>
+    </div>  
   <div class="card">
-    <div class="card-header">List of Files</div>
+    <div class="card-header">Lista de archivos</div>
     <ul
       class="list-group list-group-flush"
       *ngFor="let file of fileInfos | async"

@@ -27,6 +27,8 @@ export class RegisterDelegatesService {
     userLigue.position = formDataJs['position'];
     userLigue.noPlayer = formDataJs['number'];
     userLigue.tipo = 1;
+    userLigue.dateBirth = formDataJs['dateBirth'];
+    
      return fetch(`${URL}/api/players/register`, {
        method: 'POST',
        body: JSON.stringify(userLigue),
