@@ -11,6 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PlayersComponent implements OnInit {
 
   allPlayers: [];
+  fileUrl;
+  pdfSrc: any;
   headElements: string[] = ["Nombre", "CURP", "Categoría", "Acciones"];
   constructor(private userLigue:UserLigueService,
     private sanitizer: DomSanitizer) { }
@@ -29,8 +31,6 @@ export class PlayersComponent implements OnInit {
     // this.downloadCredentialsFn(1);
   }
 
-  fileUrl;
-  pdfSrc: any;
   getCredentialsFn(type: number, downloadFile: Boolean){
     this.userLigue.getCredentials(type, false).then(rs=>{
       rs.blob().then(rspdf=>{

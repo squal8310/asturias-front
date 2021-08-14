@@ -10,6 +10,7 @@ import { DocumentsComponent } from 'src/app/components/documents/documents.compo
 import { PlayersComponent } from 'src/app/components/players/players.component';
 import { PlayersQrComponent } from 'src/app/components/players-qr/players-qr.component';
 import { CameraQrComponent } from 'src/app/components/camera-qr/camera-qr.component';
+import { DelegateRegComponent } from 'src/app/components/delegate-reg/delegate-reg.component';
 
 const appRoutes: Routes = [
   { path: "", component: LoginComponent, pathMatch: "full" },
@@ -34,6 +35,10 @@ const appRoutes: Routes = [
 {
   path: "camera-qr",
   component: CameraQrComponent
+},
+{
+  path: "deleg-reg",
+  component: DelegateRegComponent
 }
 ];
 

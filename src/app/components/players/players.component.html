@@ -8,9 +8,10 @@
     <tbody>
       <tr mdbTableCol *ngFor="let el of allPlayers">
         <th scope="row" style="display: none;">{{el.id}}</th>
+        <td>{{el.id}}</td>
         <td>{{el.name}} {{el.lastName}}</td>
         <td>{{el.curp}}</td>
-        <td>{{el.cat}}</td>
+        <td>{{el.club}}</td>
         <td>
             <button type="button" class="btn btn-labeled btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">

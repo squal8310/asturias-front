@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { UserLigue } from 'src/app/core/models/user-ligue.model';
 import { CommonServiceService } from 'src/app/core/services/common-service.service';
 import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
@@ -31,11 +33,13 @@ export class DocumentsComponent implements OnInit {
   public frmValid2: any;
   public  frmInValid: boolean = false;
   formData: FormData = new FormData();
-  dataSaved: boolean = true;
+  dataSaved: boolean = false;
 
   constructor(private commonServ: CommonServiceService<string>, 
               private regDelegate: RegisterDelegatesService,
-              private uploadService: UploadFileServiceService) { 
+              private uploadService: UploadFileServiceService,
+              private router: Router,
+              private toastr: ToastrService) { 
     
   }
 
@@ -46,9 +50,7 @@ export class DocumentsComponent implements OnInit {
     this.commonServ.getemited().subscribe((emit)=>{
       emiter = emit;
       _this.frmValid2 = emiter;
-      console.log("var ", _this.frmValid2);
     });
-    console.log("Emitio frm: ",_this.frmValid2);
     this.setvalidForm();
    }
 
@@ -70,33 +72,36 @@ export class DocumentsComponent implements OnInit {
 
   upload=()=> {
     this.progress = 0;
-  
     let noEmptyFile = '';
-    console.log("files st");
-   
-      // if(this.filesArray.length == 0 || this.filesArray.length < 8){
+    let countFile = 0;
+    this.formData.forEach(function(file){
+      countFile++;
+    });
+    console.log("count file: "+countFile);
+      if(countFile == 0 || countFile < 8){
+        this.frmInValid = true;
+        this.message = "Faltan archivos por agregar";
+        this.dataSaved = false;
+      }else{
+        this.frmInValid = false;
+        this.regDelegate.savePlayers(1)
+        .then(
+          response => {
+            response.text().then(responseText=>{
+              let obj = JSON.parse(responseText);
+              this.uploadService.upload(this.formData, obj.club, obj.id);
+              this.dataSaved = true;
+              this.router.navigate(['/players']);
+              this.showSuccess("Info", "Se guardo su información correctamente");
+            });
+          },
+          err => {
+            console.log("Registro no exitoso: ", err);
+          });
+      }  
+  }
 
-      //   this.frmInValid = true;
-      //   this.message = "Faltan archivos por agregar";
-      // }else{
-        
-         
-      // }
-
-
-    this.regDelegate.savePlayers()
-    .then(
-      response => {
-        response.text().then(responseText=>{
-          let obj = JSON.parse(responseText);
-
-          this.uploadService.upload(this.formData, obj.id);
-          this.dataSaved = true;
-        });
-      },
-      err => {
-        console.log("Registro no exitoso: ", err);
-      });
-  
+  showSuccess(head:string, dataInfo:string) {
+    this.toastr.success(head, dataInfo);
   }
 }

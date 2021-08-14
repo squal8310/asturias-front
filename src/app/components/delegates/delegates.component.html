@@ -40,7 +40,13 @@
                             <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog3">{{cat.name}}</option>
                           </select>
                     </div>
-                     
+                    <div class="col-12">
+                        <label>* Club</label>
+                        <select class="form-select" formControlName="club" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
+                            <option value="0" selected>Seleccione un club</option>
+                            <option value="{{club.club}}" *ngFor="let club of catClub">{{club.club}}</option>
+                          </select>
+                    </div>
                     <div class="col-12">
                         <label>* Fecha nacimiento:</label>
                         <input type="text" 
@@ -52,7 +58,7 @@
                                bsDatepicker 
                                placeholder="dia/mes/año"
                                [readonly]=true
-                               [(bsValue)]="myDateValue">
+                               [(bsValue)]="maxDate">
                     </div>
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['dateBirth'].invalid && (registerForm.controls['dateBirth'].dirty || registerForm.controls['dateBirth'].touched)" class="frm-err">

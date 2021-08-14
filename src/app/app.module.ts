@@ -17,14 +17,23 @@ import { PlayersQrComponent } from './components/players-qr/players-qr.component
 // the scanner!
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { CameraQrComponent } from './components/camera-qr/camera-qr.component';
+import { ToastNoAnimationModule, ToastrModule } from 'ngx-toastr';
+import { DelegateRegComponent } from './components/delegate-reg/delegate-reg.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule, PdfViewerModule, 
     BrowserAnimationsModule,
     ZXingScannerModule,
+    NgxSpinnerModule,
     BsDatepickerModule.forRoot(),
-    DatepickerModule.forRoot()  ],
-  declarations: [ AppComponent, HelloComponent, RegisterComponent, DelegatesComponent, LoginComponent, HomeComponent, DocumentsComponent, PlayersComponent, PlayersQrComponent, CameraQrComponent ],
+    DatepickerModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: "toast-bottom-right",
+      //preventDuplicates: true
+      }),
+      ToastNoAnimationModule.forRoot(),  ],
+  declarations: [ AppComponent, HelloComponent, RegisterComponent, DelegatesComponent, LoginComponent, HomeComponent, DocumentsComponent, PlayersComponent, PlayersQrComponent, CameraQrComponent, DelegateRegComponent ],
   bootstrap:    [ AppComponent ],
   exports: [RoutesAppModule]
 })
