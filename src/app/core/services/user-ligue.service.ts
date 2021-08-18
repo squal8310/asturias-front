@@ -35,11 +35,11 @@ export class UserLigueService {
      }); 
   }
 
-  get=(type:number)=>{
+  get=(club:string)=>{
     
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/api/players/list/${type}/${0}/${10}`, {
+     return fetch(`${URL}/api/players/list/${club}/${0}/${10}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {
@@ -49,10 +49,10 @@ export class UserLigueService {
      }); 
   }
 
-  getCredentials = (type: number, download:Boolean)=>{
+  getCredentials = (club: string, front: boolean, download:Boolean)=>{
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/api/players/credentials/${type}/${download}`, {
+     return fetch(`${URL}/api/players/credentials/${club}/${front}/${download}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {

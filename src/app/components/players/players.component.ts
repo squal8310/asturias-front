@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserLigueService } from 'src/app/core/services/user-ligue.service';
 
 import { DomSanitizer } from '@angular/platform-browser';
+import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-players',
@@ -13,26 +16,48 @@ export class PlayersComponent implements OnInit {
   allPlayers: [];
   fileUrl;
   pdfSrc: any;
-  headElements: string[] = ["Nombre", "CURP", "Categoría", "Acciones"];
+  
+  public catClub: [] = [];
+  headElements: string[] = ["Nombre", "Apellidos", "CURP", "Club",  "Acciones"];
   constructor(private userLigue:UserLigueService,
-    private sanitizer: DomSanitizer) { }
+              private delegatesServ: RegisterDelegatesService,
+              private sanitizer: DomSanitizer,
+              private toastr: ToastrService,
+              private ngxSpin: NgxSpinnerService) { }
 
   @ViewChild('ifrmPdf', {static: false}) iframe: ElementRef;
 
+  valClub: string;
   pdf : string;
   ngOnInit(): void {
     
-    this.userLigue.get(1).then(rs=>{
-      rs.text().then(rsTxt=>{
-        this.allPlayers = JSON.parse(rsTxt);
-      });
-    });
-
+    this.initClubs(20000);
     // this.downloadCredentialsFn(1);
   }
 
-  getCredentialsFn(type: number, downloadFile: Boolean){
-    this.userLigue.getCredentials(type, false).then(rs=>{
+  changeClubsVal=(valueCombo:string)=>{
+    this.valClub = valueCombo;
+    this.ngxSpin.show();
+    this.userLigue.get(this.valClub).then(rs=>{
+      rs.text().then(rsTxt=>{
+        this.allPlayers = JSON.parse(rsTxt);
+        this.ngxSpin.hide();
+      });
+    });
+  }
+
+  initClubs=(catNum: number)=>{
+    this.delegatesServ.getAllClubs().then((cat)=>{
+      cat
+      .text()
+      .then((txtResp)=>{
+        this.catClub = JSON.parse(txtResp);
+      });
+    });
+  }
+
+  getCredentialsFn(frente: boolean, downloadFile: boolean){
+    this.userLigue.getCredentials(this.valClub, frente, false).then(rs=>{
       rs.blob().then(rspdf=>{
         rspdf.arrayBuffer().then(arr=>{
 
@@ -50,12 +75,12 @@ export class PlayersComponent implements OnInit {
     });
 
     if(downloadFile){
-      this.downloadCredentialsFn(1);
+      this.downloadCredentialsFn(frente);
     }
   }
 
-  downloadCredentialsFn(type: number){
-    this.userLigue.getCredentials(type, true).then(rs=>{
+  downloadCredentialsFn(frente: boolean){
+    this.userLigue.getCredentials(this.valClub, frente, true).then(rs=>{
       rs.blob().then(rspdf=>{
         rspdf.arrayBuffer().then(arr=>{
 
@@ -66,6 +91,10 @@ export class PlayersComponent implements OnInit {
       });     
 
     });
+  }
+
+  showSuccess(head:string, dataInfo:string) {
+    this.toastr.success(head, dataInfo);
   }
 
 }

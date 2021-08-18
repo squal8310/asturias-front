@@ -33,7 +33,7 @@ export class DelegatesComponent implements OnInit, AfterViewInit {
               private router: Router) { }
   ngAfterViewInit(): void {
   }
-
+ 
   ngOnInit(): void {
 
     this.initForm();
@@ -49,7 +49,6 @@ export class DelegatesComponent implements OnInit, AfterViewInit {
       .text()
       .then((txtResp)=>{
         this.catClub = JSON.parse(txtResp);
-        console.log("---> ", this.catClub);
       });
     });
   }

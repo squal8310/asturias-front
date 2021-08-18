@@ -104,7 +104,7 @@ export class DelegateRegComponent implements OnInit {
       subCategory1: [''],
       subCategory2: [''],
       subCategory3: [''],
-      club: [Validators.required],
+      club: ['', Validators.required],
       name: ['', Validators.required],
       lastName: ['', Validators.required]
 
