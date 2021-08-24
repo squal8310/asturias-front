@@ -11,6 +11,7 @@ import { Result } from '@zxing/library';
 import { User } from 'src/app/core/models/user.model';
 import { CommonServiceService } from 'src/app/core/services/common-service.service';
 import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private storageService: StorageService,
-              private router: Router) { }
+              private router: Router,
+              private ngxSpin: NgxSpinnerService) { }
 
               ngOnInit() {
                 this.loginForm = this.formBuilder.group({
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
             
               public submitLogin(): void {                
                 if(this.loginForm.valid){
+                  this.ngxSpin.show();
                   this.authenticationService.loginFetch(new LoginObject(this.loginForm.value))
                   .then((response) => {
                     response
@@ -66,9 +69,9 @@ export class LoginComponent implements OnInit {
                           sess.user = user;
                           this.isLoging = true;
                           this.storageService.setCurrentSession(sess);
-                          console.log("token: ", jsRs.access_token);
                           this.router.navigate(['/home']);
                      }
+                     this.ngxSpin.hide();
                     });
                   
                   })

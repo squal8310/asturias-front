@@ -40,7 +40,6 @@ export class DelegatesComponent implements OnInit, AfterViewInit {
     this.initCategories(10000);
     this.initPositions(80000);
     this.initClubs(20000);
-    this.fcCatego.nativeElement.focus();
   }
 
   initClubs=(catNum: number)=>{
