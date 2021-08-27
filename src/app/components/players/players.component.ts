@@ -16,8 +16,10 @@ export class PlayersComponent implements OnInit {
   allPlayers: [];
   fileUrl;
   pdfSrc: any;
-  
+  catFormats: Array<any>=[{id:"F1", value:"Formato 1"}, {id:"F2", value:"Formato 2"}, {id:"F3", value:"Formato 3"}];
+  format:string;
   public catClub: [] = [];
+  public clubSelected: Boolean = true;
   headElements: string[] = ["Nombre", "Apellidos", "CURP", "Club",  "Acciones"];
   constructor(private userLigue:UserLigueService,
               private delegatesServ: RegisterDelegatesService,
@@ -44,6 +46,12 @@ export class PlayersComponent implements OnInit {
         this.ngxSpin.hide();
       });
     });
+
+    if(valueCombo !== '0'){
+      this.clubSelected = false;
+    }else{
+      this.clubSelected = true;
+    }
   }
 
   initClubs=(catNum: number)=>{
@@ -57,6 +65,7 @@ export class PlayersComponent implements OnInit {
   }
 
   getCredentialsFn(frente: boolean, downloadFile: boolean){
+    this.ngxSpin.show();
     this.userLigue.getCredentials(this.valClub, frente, false).then(rs=>{
       rs.blob().then(rspdf=>{
         rspdf.arrayBuffer().then(arr=>{
@@ -69,6 +78,7 @@ export class PlayersComponent implements OnInit {
 
           reader.readAsDataURL(blob); 
           this.pdfSrc = arr;
+          this.ngxSpin.hide();
         });
       });     
 
@@ -78,14 +88,16 @@ export class PlayersComponent implements OnInit {
       this.downloadCredentialsFn(frente);
     }
   }
-
+  
   downloadCredentialsFn(frente: boolean){
+    this.ngxSpin.show();
     this.userLigue.getCredentials(this.valClub, frente, true).then(rs=>{
       rs.blob().then(rspdf=>{
         rspdf.arrayBuffer().then(arr=>{
 
           let blob = new Blob([arr], {type: 'application/octet-stream'});         
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+          this.ngxSpin.hide();
         });
           // Create an iframe to demonstrate it:
       });     

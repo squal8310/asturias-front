@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { URL } from 'src/environments/environment';
+import { FormatCredentialsVO } from '../models/categories.model copy';
 import { UserLigue } from '../models/user-ligue.model';
 import { StorageService } from '../storage.service';
 
@@ -25,7 +26,7 @@ export class UserLigueService {
     userLigue.position = formDataJs['position'];
     userLigue.noPlayer = formDataJs['number'];
     userLigue.tipo = tipo;
-     return fetch(`${URL}/api/players/register`, {
+     return fetch(`${URL}/public/players/register`, {
        method: 'POST',
        body: JSON.stringify(userLigue),
        headers: {
@@ -39,7 +40,7 @@ export class UserLigueService {
     
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/api/players/list/${club}/${0}/${10}`, {
+     return fetch(`${URL}/public/players/list/${club}/${0}/${10}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {
@@ -51,12 +52,15 @@ export class UserLigueService {
 
   getCredentials = (club: string, front: boolean, download:Boolean)=>{
     const tokendt = this.stServ.getCurrentSession();
-  
-     return fetch(`${URL}/api/players/credentials/${club}/${front}/${download}`, {
+    let formatCred: FormatCredentialsVO = new FormatCredentialsVO();
+    formatCred.club = club;
+    formatCred.front = front;
+    formatCred.download = download;
+     return fetch(`${URL}/public/players/credentials`, {
        method: 'POST',
-       body: JSON.stringify({}),
+       body: JSON.stringify(formatCred),
        headers: {
-        "Authorization": `Bearer ${tokendt.token}`
+        "Content-Type": "application/json"
        }
      }); 
   }
@@ -64,7 +68,7 @@ export class UserLigueService {
   getById = (id: string)=>{
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/api/players/get/${id}`, {
+     return fetch(`${URL}/public/players/get/${id}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {

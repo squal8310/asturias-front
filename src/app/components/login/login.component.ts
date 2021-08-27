@@ -45,11 +45,13 @@ export class LoginComponent implements OnInit {
                   password: ['', Validators.required],
                 });
 
+                this.submitLogin();
+
                 
               }
             
               public submitLogin(): void {                
-                if(this.loginForm.valid){
+                // if(this.loginForm.valid){
                   this.ngxSpin.show();
                   this.authenticationService.loginFetch(new LoginObject(this.loginForm.value))
                   .then((response) => {
@@ -77,7 +79,7 @@ export class LoginComponent implements OnInit {
                   })
                   .then(result => console.log(result))
                   .catch(error => console.log('error', error));
-                }
+                // }
               }
             
               ngOnDestroy() {

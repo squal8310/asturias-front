@@ -18,7 +18,7 @@ export class AuthenticationService {
     
     return fetch(URL+ "/oauth/token", {
       method: 'POST',
-      body: 'grant_type=password&username='+lO.username+ '&password=' + lO.password,
+      body: 'grant_type=password&username=admin&password=Asturias.25',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic YXN0dXJpYXNhcHA6c2VjcmV0'

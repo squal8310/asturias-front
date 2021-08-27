@@ -15,7 +15,7 @@ export class RegisterDelegatesService {
 
   getAllClubs=()=>{
     const tokendt = this.stServ.getCurrentSession();
-    return fetch(`${URL}/api/delegates/list/2`, {
+    return fetch(`${URL}/public/delegates/list/2`, {
       method: 'POST',
       body: "",
       headers: {
@@ -42,7 +42,7 @@ export class RegisterDelegatesService {
     userLigue.tipo = typeUser;
     userLigue.dateBirth = formDataJs['dateBirth'];
     
-     return fetch(`${URL}/api/players/register`, {
+     return fetch(`${URL}/public/players/register`, {
        method: 'POST',
        body: JSON.stringify(userLigue),
        headers: {

@@ -1,7 +1,7 @@
 <app-home></app-home>
 <div class="container">
   <div class="row">
-      <div class="col-md-4 offset-lg-4">
+      <div class="col-md-4 offset-lg-2">
           <label>* Club</label>
           <select class="form-select" value="0" aria-label="Default select example" (change)="changeClubsVal($event.target.value)">
               <option value="0" selected>Seleccione un club</option>
@@ -35,7 +35,7 @@
       </tr>
     </tbody>
   </table>
-  <button type="button" (click)="getCredentialsFn(1, false)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" [disabled]="this.clubSelected" (click)="getCredentialsFn(1, false)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Descargar credenciales
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>

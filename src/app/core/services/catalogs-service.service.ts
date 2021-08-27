@@ -13,8 +13,7 @@ export class CatalogsServiceService {
 
   getMenu=(catNum: number)=>{
     let tokendtr = this.stServ.getCurrentSession();
-   console.log("--------> ", tokendtr);
-    return fetch(URL+ "/api/menu/list", {
+    return fetch(URL+ "/public/menu/list", {
       method: 'POST',
       body: JSON.stringify({attr1: catNum}),
       headers: {
@@ -27,7 +26,7 @@ export class CatalogsServiceService {
   getCategories=(catNum: number)=>{
     let tokendtr = this.stServ.getCurrentSession();
    console.log("--------> ", tokendtr);
-    return fetch(URL+ "/api/categories/list", {
+    return fetch(URL+ "/public/categories/list", {
       method: 'POST',
       body: JSON.stringify({attr1: catNum}),
       headers: {
@@ -40,7 +39,7 @@ export class CatalogsServiceService {
   getPositions=(catNum: number)=>{
     let tokendtr = this.stServ.getCurrentSession();
    console.log("--------> ", tokendtr);
-    return fetch(URL+ "/api/categories/list", {
+    return fetch(URL+ "/public/categories/list", {
       method: 'POST',
       body: JSON.stringify({attr1: catNum}),
       headers: {
