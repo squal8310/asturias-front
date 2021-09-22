@@ -1,54 +1,29 @@
-<app-home></app-home>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4">
+        <div class="col-md-8 col-lg-4 offset-md-4">
             <div class="register-form bg-light mt-4 p-4">
                 <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister()" class="row g-3">
                     <h4>{{registerUser}}</h4>
                     <div class="col-12">
-                        <label>* Categoria</label>
-                        <select #fcCatego [focused]="true" class="form-select" formControlName="category" name="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 1)">
-                            <option value="0" selected="selected">Seleccione una categoría</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
-                          </select>
-                    </div>
-                    <div class="col-12">
-                        <div *ngIf="registerForm.controls['category'].invalid && (registerForm.controls['category'].dirty || registerForm.controls['category'].touched)" class="frm-err">
-                            <div *ngIf="registerForm.controls['category'].errors.required">
-                                Favor de seleccionar una categoría
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12" *ngIf="subCatalog1.length > 0">
-                        <label>* SubCategoria</label>
-                        <select class="form-select" formControlName="subCategory1" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 2)">
-                            <option value="0" selected>Seleccione una subcategoria</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog1">{{cat.name}}</option>
-                          </select>
-                    </div>
-                    <div class="col-12" *ngIf="subCatalog2.length > 0">
-                        <label>* SubCategoria</label>
-                        <select class="form-select" formControlName="subCategory2" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
-                            <option value="0" selected>Seleccione una subcategoria</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog2">{{cat.name}}</option>
-                          </select>
-                    </div>
-                    <div class="col-12" *ngIf="subCatalog3.length > 0">
-                        <label>* SubCategoria</label>
-                        <select class="form-select" formControlName="subCategory3" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 3)">
-                            <option value="0" selected="selected">Seleccione una subcategoria</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of subCatalog3">{{cat.name}}</option>
-                          </select>
-                    </div>
-                    <div class="col-12">
                         <label>* Club:</label>
                         <input type="text" formControlName="club" name="club" class="form-control" placeholder="Nombre Club" required>
-  
                      </div>
                      <div class="col-12">
                         <div *ngIf="registerForm.controls['club'].invalid && (registerForm.controls['club'].dirty || registerForm.controls['club'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['club'].errors.required">
                                 Introducir club
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Crear Usuario:</label>
+                        <input type="text" formControlName="user" name="user" class="form-control" placeholder="Introducir Usuario" required>
+  
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerForm.controls['user'].invalid && (registerForm.controls['user'].dirty || registerForm.controls['user'].touched)" class="frm-err">
+                            <div *ngIf="registerForm.controls['user'].errors.required">
+                                Introducir Usuario
                             </div>
                         </div>
                     </div>
@@ -67,14 +42,22 @@
                         <label>* Apellidos:</label>
                         <input type="text" formControlName="lastName" name="lastName" class="form-control" placeholder="Apellidos">
                     </div> 
-                    
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['lastName'].invalid && (registerForm.controls['lastName'].dirty || registerForm.controls['lastName'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['lastName'].errors.required">
                                 Introducir apellidos del delegado
                             </div>
                         </div>
-                    </div>      
+                    </div>   
+                    <div class="col-12">
+                        <label>Contraseña:</label>
+                        <input type="password" formControlName="password" name="password" class="form-control" placeholder="Contraseña">
+                    </div>
+                       
+                    <div class="col-12">
+                        <label>Repetir contraseña:</label>
+                        <input type="password" formControlName="reppassword" name="reppassword" class="form-control" placeholder="Repetir Contraseña">
+                    </div>
                     <div class="col-12">
                         <div *ngIf="incompleteFrm" class="frm-err">
                                 Favor de completar formulario

@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
-import { URL } from 'src/environments/environment';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { URL, USERS_LIGUE_DB } from 'src/environments/environment';
 import { FormatCredentialsVO } from '../models/categories.model copy';
 import { UserLigue } from '../models/user-ligue.model';
+import { User } from '../models/user.model';
 import { StorageService } from '../storage.service';
+import { FileUploadService } from './file-upload.service';
 
 
 @Injectable({
@@ -10,12 +16,14 @@ import { StorageService } from '../storage.service';
 })
 export class UserLigueService {
 
-  constructor(private stServ: StorageService) { }
+  
+  user: User;
+  constructor(private uploadService: FileUploadService, private stServ: StorageService, private db: AngularFireDatabase) { }
 
-  save=(tipo:number)=>{
+  save=(tipo:number, form:NgForm)=>{
     let userLigue: UserLigue= new UserLigue();
     let formDataJs = JSON.parse( window['formRegisterDelegates']);
-    const tokendt = this.stServ.getCurrentSession();
+    this.user = this.stServ.getCurrentUser();
     userLigue.cat = formDataJs['category'];
     userLigue.subcategoria1 = formDataJs['subCategory1'];
     userLigue.subcategoria2 = formDataJs['subCategory2'];
@@ -26,9 +34,21 @@ export class UserLigueService {
     userLigue.position = formDataJs['position'];
     userLigue.noPlayer = formDataJs['number'];
     userLigue.tipo = tipo;
-     return fetch(`${URL}/public/players/register`, {
+    userLigue.club =  this.user.club;
+    userLigue.user = '';
+    userLigue.tipo = 1;      
+    userLigue.rol = 'PLAYER';
+
+    this.db.object(`USERS_LIGUE/${this.user.club}`).set(userLigue);
+  }
+
+  getByUserDelegate=()=>{
+    
+    const tokendt = this.stServ.getCurrentSession();
+  
+     return fetch(`${URL}/api/delegates/get`, {
        method: 'POST',
-       body: JSON.stringify(userLigue),
+       body: JSON.stringify({}),
        headers: {
          "Authorization": `Bearer ${tokendt.token}`,
          "Content-Type": "application/json"
@@ -40,7 +60,7 @@ export class UserLigueService {
     
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/public/players/list/${club}/${0}/${10}`, {
+     return fetch(`${URL}/api/players/list/${club}/${0}/${100}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {
@@ -56,7 +76,7 @@ export class UserLigueService {
     formatCred.club = club;
     formatCred.front = front;
     formatCred.download = download;
-     return fetch(`${URL}/public/players/credentials`, {
+     return fetch(`${URL}/api/players/credentials`, {
        method: 'POST',
        body: JSON.stringify(formatCred),
        headers: {
@@ -68,12 +88,22 @@ export class UserLigueService {
   getById = (id: string)=>{
     const tokendt = this.stServ.getCurrentSession();
   
-     return fetch(`${URL}/public/players/get/${id}`, {
+     return fetch(`${URL}/api/players/get/${id}`, {
        method: 'POST',
        body: JSON.stringify({}),
        headers: {
         "Authorization": `Bearer ${tokendt.token}`
        }
      }); 
+  }
+
+  getByUserLogged = (): AngularFireList<UserLigue>=>{
+    this.user = this.stServ.getCurrentUser();
+     return this.db.list(`${USERS_LIGUE_DB}/${this.user.club}/${this.user.id}`, ref=>ref.limitToLast(100));
+  }
+
+  getAllPlayersByclubAndUser = (): AngularFireList<UserLigue[]>=>{
+    this.user = this.stServ.getCurrentUser();
+     return this.db.list(`${USERS_LIGUE_DB}/${this.user.club}`, ref=>ref.child("rol").orderByChild("lastName").equalTo("PLAYER"));
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { moment } from 'ngx-bootstrap/chronos/testing/chain';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 import { CommonServiceService } from 'src/app/core/services/common-service.service';
 import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
+import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 
 @Component({
   selector: 'app-delegate-reg',
@@ -30,108 +31,56 @@ export class DelegateRegComponent implements OnInit {
               private commonServ: CommonServiceService<string>,
               private router: Router, 
               private regDelegate: RegisterDelegatesService,
-              private toastr: ToastrService,
+              private toastr: ToastMessagesService,
               private ngxSpin: NgxSpinnerService) { }
 
   ngAfterViewInit(): void {
   }
 
   ngOnInit(): void {
-
     this.initForm();
-    this.initCategories(10000);
-    this.initClubs(20000);
-  }
-
-  initClubs=(catNum: number)=>{
-    this.catServ.getCategories(catNum).then((cat)=>{
-      cat
-      .text()
-      .then((txtResp)=>{
-        this.catClub = JSON.parse(txtResp);
-      });
-    });
-  }
-  
-  initCategories=(catNum: number)=>{
-    this.catServ.getCategories(catNum).then((cat)=>{
-      cat
-      .text()
-      .then((txtResp)=>{
-        this.catalogsJson = JSON.parse(txtResp);
-      });
-    });
-  }
-
-  changeCategoriesiF=(catNum: number, whatCatalog)=>{
-    
-    console.log("cate: "+whatCatalog);
-    this.catServ.getCategories(catNum).then(cat=>{
-      cat
-      .text()
-      .then((txtResp)=>{
-        let result = JSON.parse(txtResp);
-        switch(whatCatalog){
-          case 1:
-            if(result.length > 0){
-              this.subCatalog1 = result;
-            }else{
-              this.subCatalog1 = [];
-            }
-          break;
-          case 2:
-            if(result.length > 0){
-              this.subCatalog2 = result;
-            }else{
-              this.subCatalog2 = [];
-            }
-          break;
-          case 3:
-            if(result.length > 0){
-              this.subCatalog3 = result;
-            }else{
-              this.subCatalog3 = [];
-            }
-          break;
-        }
-      });
-    });
   }
 
   initForm=()=>{
     this.registerForm = this.formBuilder.group({
-      category: ['', Validators.required],
-      subCategory1: [''],
-      subCategory2: [''],
-      subCategory3: [''],
       club: ['', Validators.required],
+      user: ['', Validators.required],
       name: ['', Validators.required],
-      lastName: ['', Validators.required]
+      lastName: ['', Validators.required],
+      password: ['', Validators.required],
+      reppassword:['', Validators.required]
 
     });
   }
 
+  equalPw=()=>{return this.registerForm.get("password").value === this.registerForm.get("reppassword").value};
+
   submitregister=()=>{
+    if(this.equalPw()){
+      this.toastr.showWarning("Atención", "Contraseñas no coinciden");
+      return;
+    }
+
     if(this.registerForm.valid){
       this.ngxSpin.show();
       window['formRegisterDelegates'] = JSON.stringify(this.registerForm.value);
-      this.regDelegate.savePlayers(2).then(result=>{
-        result.text().then(data=>{
-          let datjs = JSON.parse(data);
-            if(datjs.id){
-              this.registerForm.reset();
-              this.showSuccess("Info", "Se guardo su información correctamente");
-              this.ngxSpin.hide();
-            }
-        });
+      this.ngxSpin.show();
+      this.regDelegate.saveUser(this.registerForm.value, 2).then(result=>{
+        console.log("-------> ",result);
+            // if(datjs.responseOK){
+            //   this.registerForm.reset();
+            //   this.showSuccess("Informe", "Se guardo su información correctamente");
+            //   this.ngxSpin.hide();
+            //   this.router.navigate(["/login"]);            
+            // }
+
+            // if(datjs.mensaje === "USER_REPEATED"){
+            //   this.showWarning("Atención", "Favor de usar otro usario");
+            // }
+        
       });
     }else{
       this.incompleteFrm = true;
     }
   }
-
-  showSuccess(head:string, dataInfo:string) {
-    this.toastr.success(head, dataInfo);
-  }
-
 }

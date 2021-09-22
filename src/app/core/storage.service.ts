@@ -47,7 +47,7 @@ export class StorageService {
 
   getCurrentToken(): string {
     var session = this.getCurrentSession();
-    return (session && session.token) ? session.token : null;
+    return (session && session.user.club) ? session.user.club : null;
   };
 
   logout(): void{

@@ -4,41 +4,52 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from 'src/app/components/home/home.component';
 import { AuthorizatedGuardGuard } from '../authorizated-guard.guard';
 import { LoginComponent } from 'src/app/components/login/login.component';
-import { DelegatesComponent } from 'src/app/components/delegates/delegates.component';
+import { PlayersRegComponent } from 'src/app/components/players-reg/players-reg.component';
 import { AppComponent } from 'src/app/app.component';
 import { DocumentsComponent } from 'src/app/components/documents/documents.component';
 import { PlayersComponent } from 'src/app/components/players/players.component';
 import { PlayersQrComponent } from 'src/app/components/players-qr/players-qr.component';
 import { CameraQrComponent } from 'src/app/components/camera-qr/camera-qr.component';
 import { DelegateRegComponent } from 'src/app/components/delegate-reg/delegate-reg.component';
+import { RecoveryPasswordComponent } from 'src/app/components/recovery-password/recovery-password.component';
 
 const appRoutes: Routes = [
-  { path: "", component: LoginComponent, pathMatch: "full" },
-  { path: 'home', component: HomeComponent, canActivate: [ AuthorizatedGuardGuard ] },
-  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: "login", component: LoginComponent},
+  { path: 'home', component: HomeComponent, canActivate: [ AuthorizatedGuardGuard ]},
   {
     path: "players",
-    component: DelegatesComponent
+    component: PlayersRegComponent, 
+    canActivate: [ AuthorizatedGuardGuard ]
  },
  {
    path: "getPlayers",
-   component: PlayersComponent
+   component: PlayersComponent,
+   outlet: "components"
  },
  {
    path: "documents",
-   component: DocumentsComponent
+   component: DocumentsComponent, 
+   canActivate: [ AuthorizatedGuardGuard ]
 },
 {
   path: "players-qr",
-  component: PlayersQrComponent
+  component: PlayersQrComponent, 
+  canActivate: [ AuthorizatedGuardGuard ]
 },
 {
   path: "camera-qr",
-  component: CameraQrComponent
+  component: CameraQrComponent, 
+  canActivate: [ AuthorizatedGuardGuard ]
 },
 {
   path: "deleg-reg",
-  component: DelegateRegComponent
+  component: DelegateRegComponent, 
+  canActivate: [ AuthorizatedGuardGuard ]
+},
+{
+  path: "recovery-pws",
+  component: RecoveryPasswordComponent
 }
 ];
 

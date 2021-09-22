@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
 import { RegisterComponent } from './components/register/register.component';
-import { DelegatesComponent } from './components/delegates/delegates.component';
+import { PlayersRegComponent } from './components/players-reg/players-reg.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoutesAppModule } from './core/routes/routes.module';
@@ -20,6 +20,16 @@ import { CameraQrComponent } from './components/camera-qr/camera-qr.component';
 import { ToastNoAnimationModule, ToastrModule } from 'ngx-toastr';
 import { DelegateRegComponent } from './components/delegate-reg/delegate-reg.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { RecoveryPasswordComponent } from './components/recovery-password/recovery-password.component';
+
+import { firebasedata } from 'src/environments/environment';
+import { UploadFormComponent } from './components/upload-form/upload-form.component';
+import { UploadListComponent } from './components/upload-list/upload-list.component';
+import { UploadDetailsComponent } from './components/upload-details/upload-details.component';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from "@angular/fire/auth";
 
 @NgModule({
   imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule, PdfViewerModule, 
@@ -28,12 +38,26 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule,
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
+    AngularFireModule.initializeApp(firebasedata.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
     ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
       //preventDuplicates: true
       }),
       ToastNoAnimationModule.forRoot(),  ],
-  declarations: [ AppComponent, HelloComponent, RegisterComponent, DelegatesComponent, LoginComponent, HomeComponent, DocumentsComponent, PlayersComponent, PlayersQrComponent, CameraQrComponent, DelegateRegComponent ],
+  declarations: [ AppComponent, 
+    HelloComponent, 
+    RegisterComponent,
+    PlayersRegComponent, 
+    LoginComponent, 
+    HomeComponent, 
+    DocumentsComponent, 
+    PlayersComponent, 
+    PlayersQrComponent, 
+    CameraQrComponent,
+    DelegateRegComponent, 
+    RecoveryPasswordComponent, UploadFormComponent, UploadListComponent, UploadDetailsComponent],
   bootstrap:    [ AppComponent ],
   exports: [RoutesAppModule]
 })

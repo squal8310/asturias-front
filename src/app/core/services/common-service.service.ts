@@ -38,7 +38,6 @@ export class CommonServiceService<T> {
 
 
   getToken=():String=>{
-    console.log("fetch --------> token: ",this.token);
     if(!localStorage.getItem(TOKEN)){
       return;
     }

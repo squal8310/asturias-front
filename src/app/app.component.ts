@@ -2,12 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {Subscription} from 'rxjs';
 import {
   FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
+  FormGroup
 } from "@angular/forms";
-import axios from "axios";
 import { CommonServiceService } from "./core/services/common-service.service";
+
 
 // const unregister = fetchIntercept.register({
 //   request: function (url, config) {

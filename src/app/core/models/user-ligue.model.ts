@@ -5,7 +5,7 @@ export class UserLigue {
 	lastName: string = '';
 	curp: string = '';
 	telefono: number= 0;
-	club: number= 0;
+	club: string= "";
 	estado: number= 0;
 	municipio: number= 0;
 	postalCode: number= 0;
@@ -32,4 +32,7 @@ export class UserLigue {
 	tipo: number = 0;
 	dateReg: string;
 	dateBirth: string;
+	password: string;
+	user: string;
+	rol: string;
 }

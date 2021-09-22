@@ -1,26 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">App Asturias</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown"  *ngFor="let menuIt of menu; let i=index;">
-                    <a class="nav-link" [ngClass]="{'dropdown-toggle': menuIt.submenus.length > 0}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{menuIt.name}}
+<nav class="main-menu">
+            <ul>
+                <li>
+                    <a (click)="loadHome()">
+                        <i class="fa fa-home fa-2x"></i>
+                        <span class="nav-text">
+                            Inicio
+                        </span>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="menuIt.submenus.length > 0">
-                        <li *ngFor="let subm of menuIt.submenus">
-                            <a class="dropdown-item" [routerLink]="[subm.link]">{{subm.name}}</a></li>
-                    </ul>
+                  
+                </li>
+                <li class="has-subnav">
+                    <a (click)="loadPlayerModuleM()">
+                        <i class="fa fa-table fa-2x"></i>
+                        <span class="nav-text">
+                            Registro Jugadores
+                        </span>
+                    </a>
                 </li>
             </ul>
-            <!-- <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> -->
-        </div>
+
+            <ul class="logout">
+                <li>
+                   <a href="#">
+                         <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            Salir
+                        </span>
+                    </a>
+                </li>  
+            </ul>
+        </nav>
+    <div class="content-ng">
+        <app-players *ngIf="loadPlayerModule"></app-players>
     </div>
-    </nav>
-    <ngx-spinner></ngx-spinner>

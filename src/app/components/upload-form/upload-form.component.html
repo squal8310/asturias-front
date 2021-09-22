@@ -1,0 +1,29 @@
+<form [formGroup]="uploadForm">
+  <div class="card">
+    <div class="row mt-3">
+      <div class="col-4">
+        {{ documentToUploadTitle[0].name }}
+        <label for="staticEmail2" class="sr-only"></label>
+      </div>
+      <div class="col-4">
+        <input formControlName="fileUpload" type="file" (change)="selectFile($event)">
+      </div>
+      <div class="col-4">
+        <button type="submit" class="btn btn-success btn-sm" (click)="upload()">Subir</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="currentFileUpload" class="progress mt-2">
+    <div
+      class="progress-bar progress-bar-info"
+      role="progressbar"
+      attr.aria-valuenow="{{ percentage }}"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [ngStyle]="{ width: percentage + '%' }"
+    >
+      {{ percentage }}%
+    </div>
+  </div>

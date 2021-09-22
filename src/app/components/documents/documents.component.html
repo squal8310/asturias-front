@@ -1,137 +1,17 @@
 <app-home></app-home>
 <div class="container">
-  <div class="row">
-      <div class="col-lg-6 col-md-6 offset-md-4">
-          <div class=" bg-light mt-4 p-4">
-            <div *ngIf="currentFile" class="progress">
-              <div
-                class="progress-bar progress-bar-info progress-bar-striped"
-                role="progressbar"
-                attr.aria-valuenow="{{ progress }}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                [ngStyle]="{ width: progress + '%' }"
-              >
-                {{ progress }}%
-              </div>
-            </div>
-          </div>
-      </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label> Fotografía</label><br>
-          <label class="btn btn-default">
-            <input type="file" name="file" (change)="selectFile($event, 0)" />
-          </label>
-        </div>
+  <div class="container" style="width:600px">
+    <div>
+      <h4>{{ title }}</h4>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>Acta de nacimiento</label>
-          <label class="btn btn-default">
-            <input type="file" name="file" selected (change)="selectFile($event, 1)" />
-          </label>
-        </div>
+  
+    <div class="my-3">
+      <app-upload-form></app-upload-form>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>Carta responsiva</label>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 2)" />
-          </label>
-        </div>
+  
+    <div class="my-2">
+      <app-upload-list></app-upload-list>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>CURP</label><br>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 3)" />
-          </label>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>Credencial escolar</label>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 4)" />
-          </label>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>INE (Papá o Mamá)</label>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 5)" />
-          </label>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>Certificado médico</label>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 6)" />
-          </label>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          <label>Formato federación</label>
-          <label class="btn btn-default">
-            
-            <input type="file" name="file" selected (change)="selectFile($event, 7)" />
-          </label>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-        <div class=" bg-light mt-4 p-4">
-          
-          <div class="alert alert-light" *ngIf="frmInValid" role="alert">{{ message }}</div>
-          <button class="btn btn-success" (click)="upload()">
-            Subir
-          </button>
-        </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 offset-md-4">
-      <div *ngIf="dataSaved" class="alert alert-success" role="alert">
-        ¡Se guardo correctamente sus datos!
-      </div>
-    </div>
-    </div>  
-  <div class="card">
-    <div class="card-header">Lista de archivos</div>
-    <ul
-      class="list-group list-group-flush"
-      *ngFor="let file of fileInfos | async"
-    >
-      <li class="list-group-item">
-        <a href="{{ file.url }}">{{ file.name }}</a>
-      </li>
-    </ul>
   </div>
 </div>
   
