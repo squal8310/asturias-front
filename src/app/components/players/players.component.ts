@@ -21,6 +21,7 @@ export class PlayersComponent implements OnInit {
   pdfSrc: any; format:string;
   public catClub: [] = [];
   public clubSelected: Boolean = true;
+  public idPlayerToSend:string = "";
   @ViewChild('ifrmPdf', {static: false}) iframe: ElementRef;
 
   valClub: string;
@@ -48,82 +49,17 @@ export class PlayersComponent implements OnInit {
       )
       ).
       subscribe(values=>{
-      this.allPlayers=values;   
-      console.log("PLAYERS", values);   
+      this.allPlayers=values;     
       this.ngxSpin.hide();
     });
   }
 
-  // changeCatsVal=(valueCombo:string)=>{
-  //   this.valClub = valueCombo;
-  //   this.ngxSpin.show();
-  //   this.userLigue.get(this.valClub).then(rs=>{
-  //     rs.text().then(rsTxt=>{
-  //       this.allPlayers = JSON.parse(rsTxt);
-  //       this.ngxSpin.hide();
-  //     });
-  //   });
+  removeUserLiguePlayer=(userIdToRemove:string):void=>{
+    this.userLigueService.removeUserLiguePlayer(userIdToRemove);
+  }
 
-  //   if(valueCombo !== '0'){
-  //     this.clubSelected = false;
-  //   }else{
-  //     this.clubSelected = true;
-  //   }
-  // }
-
-  // initClubs=(catNum: number)=>{
-  //   this.delegatesServ.getAllClubs().then((cat)=>{
-  //     cat
-  //     .text()
-  //     .then((txtResp)=>{
-  //       this.catClub = JSON.parse(txtResp);
-  //     });
-  //   });
-  // }
-
-  // getCredentialsFn(frente: boolean, downloadFile: boolean){
-  //   this.ngxSpin.show();
-  //   this.userLigue.getCredentials(this.valClub, frente, false).then(rs=>{
-  //     rs.blob().then(rspdf=>{
-  //       rspdf.arrayBuffer().then(arr=>{
-
-  //         let blob = new Blob([arr], {type: 'application/pdf'});
-  //         const reader = new FileReader();
-  //         reader.onloadend = () => {
-  //           let base64data = reader.result;        
-  //         }
-
-  //         reader.readAsDataURL(blob); 
-  //         this.pdfSrc = arr;
-  //         this.ngxSpin.hide();
-  //       });
-  //     });     
-
-  //   });
-
-  //   if(downloadFile){
-  //     this.downloadCredentialsFn(frente);
-  //   }
-  // }
-  
-  // downloadCredentialsFn(frente: boolean){
-  //   this.ngxSpin.show();
-  //   this.userLigue.getCredentials(this.valClub, frente, true).then(rs=>{
-  //     rs.blob().then(rspdf=>{
-  //       rspdf.arrayBuffer().then(arr=>{
-
-  //         let blob = new Blob([arr], {type: 'application/octet-stream'});         
-  //         this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-  //         this.ngxSpin.hide();
-  //       });
-  //         // Create an iframe to demonstrate it:
-  //     });     
-
-  //   });
-  // }
-
-  // showSuccess(head:string, dataInfo:string) {
-  //   this.toastr.success(head, dataInfo);
-  // }
-
+  sendToModalIdClient=(idClient:string)=>{
+    console.log("el idcliente: ",idClient)
+    window['idClientGlobal']= idClient;
+  }
 }

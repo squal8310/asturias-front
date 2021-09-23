@@ -16,7 +16,7 @@ import { RecoveryPasswordComponent } from 'src/app/components/recovery-password/
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: "login", component: LoginComponent},
-  { path: 'home', component: HomeComponent, canActivate: [ AuthorizatedGuardGuard ]},
+  { path: 'home', component: HomeComponent},
   {
     path: "players",
     component: PlayersRegComponent, 
@@ -25,7 +25,8 @@ const appRoutes: Routes = [
  {
    path: "getPlayers",
    component: PlayersComponent,
-   outlet: "components"
+   outlet: "components", 
+   canActivate: [ AuthorizatedGuardGuard ]
  },
  {
    path: "documents",

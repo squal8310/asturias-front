@@ -28,6 +28,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   public subCatalog2?: any[];
   public subCatalog3?: any[];
   public positions?: any[];
+  public subCat1Val:string = "0";
   @ViewChild('fcCatego') fcCatego: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
@@ -89,23 +90,25 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   }
 
   changeCategoriesiF=(category:string, whatCatalog:number)=>{
-    this.ngxSpin.show();    
+    this.ngxSpin.show();  
+    
     this.catServ.getCategoriesByCat(category).snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
       )
       ).subscribe(values=>{
-        console.log("CATEGORIE");
       switch(whatCatalog){
         case 1:
           if(values.length > 0){
             this.subCatalog1 = values;
+            
           }else{
             this.subCatalog1 = [];
           }
         break;
         case 2:
+            this.subCat1Val = category;
           if(values.length > 0){
             this.subCatalog2 = values;
           }else{
@@ -127,7 +130,14 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
 
   submitregister=(registerFormp)=>{
-    if(this.registerForm){
+    let failSubcat1 = false;
+    console.log("registro");
+    if(this.isNotSelectedSubCat()){
+      this.toastr.showFail("Favor de seleccionar una subcategoría", "Error subcategoría");
+      failSubcat1 = true;
+    }
+
+    if(this.registerForm.valid && !failSubcat1){
       this.ngxSpin.show();
       this.delegatesServ.saveUser(registerFormp, 1);
       this.toastr.showSuccess("Registro guardado correctamente", "Info");
@@ -137,4 +147,8 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   }
 
   isEmptySubCat=()=>{return this.subCatalog1 == undefined ||  this.subCatalog1 == null ||  this.subCatalog1.length == 0}
+
+  isNotSelectedSubCat=()=>{return this.subCatalog1.length > 0 && this.subCat1Val == "0"}
+
 }
+

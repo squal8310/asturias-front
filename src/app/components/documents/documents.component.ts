@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -38,7 +38,6 @@ export class DocumentsComponent implements OnInit {
   public storageFire;
   public storageFirePut;
   public fileStorageFire;
-
   constructor(private commonServ: CommonServiceService<string>, 
               private regDelegate: RegisterDelegatesService,
               private uploadService: UploadFileServiceService,
@@ -49,86 +48,5 @@ export class DocumentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    const _this = this;
-    let emiter = '';
-    this.commonServ.getemited().subscribe((emit)=>{
-      emiter = emit;
-      _this.frmValid2 = emiter;
-    });
-    this.setvalidForm();
-
-      this.storageFire = appFire.storage().ref();
-   }
-
-   setvalidForm=()=>{
-    this.frmValid =JSON.parse( window['formRegisterDelegates']);
-   }
-
-  selectFile(event, fileNum:number) {
-    let obFile: FileSend = new FileSend();
-    
-    obFile.id= fileNum;
-    this.selectedFiles = event.target.files[0];
-    var reader = new FileReader();
-    console.log("Files ----> ", event.target.files[0])
-    this.fileStorageFire = event.target.files[0];
-    this.storageFirePut = this.storageFire.child(this.fileStorageFire.name);
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-      return function(e) {
-        let binaryData = e.target.result;
-        //Converting Binary Data to base 64
-        let base64String = window.btoa(binaryData);
-
-        const compressed = this.lz.compress(base64String);
-        
-        //showing file converted to base64
-        console.log('1 ---> ', base64String);
-        console.log('2 ---> ', compressed);
-      };
-    })( this.selectedFiles);
-    this.formData.append("file", this.selectedFiles[0]);
-  }
-
-  validFormEvent=()=>{
-
-  }
-
-  upload=()=> {
-    this.storageFirePut.put(this.fileStorageFire).then(function(snapshot) {
-      console.log('Uploaded a blob or file!');
-  });
-    // this.progress = 0;
-    // let noEmptyFile = '';
-    // let countFile = 0;
-    // this.formData.forEach(function(file){
-    //   countFile++;
-    // });
-    //   // if(countFile == 0 || countFile < 8){
-    //   //   this.frmInValid = true;
-    //   //   this.message = "Faltan archivos por agregar";
-    //   //   this.dataSaved = false;
-    //   // }else{
-    //     this.frmInValid = false;
-    //     this.regDelegate.saveUser(1)
-    //     .then(
-    //       response => {
-    //         response.text().then(responseText=>{
-    //           let obj = JSON.parse(responseText);
-    //           this.uploadService.upload(this.formData, obj.club, obj.id);
-    //           this.dataSaved = true;
-    //           this.router.navigate(['/players']);
-    //           this.showSuccess("Info", "Se guardo su información correctamente");
-    //         });
-    //       },
-    //       err => {
-    //         console.log("Registro no exitoso: ", err);
-    //       });
-    //   }  
-  }
-
-  showSuccess(head:string, dataInfo:string) {
-    this.toastr.success(head, dataInfo);
   }
 }

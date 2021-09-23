@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'src/app/core/models/file-upload.model';
 import { FileUploadService } from 'src/app/core/services/file-upload.service';
@@ -17,16 +17,16 @@ export class UploadFormComponent implements OnInit {
   percentage = 0;
   public buttonDisabled: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
   public documentToUploadTitle: Array<any>;
+  @Input()
+  public idPlayer:string;
+
 
   constructor(private formBuilder: FormBuilder,
               private uploadService: FileUploadService,
               private storageService: StorageService) {
-                this.documentToUploadTitle = new Array({id:1, name:"Fotografía"}, {id:2, name:"Acta de nacimiento"}, {id:3, name:"Carta responsiva"}, {id:4, name:"CURP"}, {id:5, name:"Credencial escolar"}, {id:6, name:"INE (Papá o Mamá)"}, {id:7, name:"Certificado médico"}, {id:8, name:"Formato federación"});
-                console.log("Docs ", this.documentToUploadTitle);
               }
 
   ngOnInit(): void {
-    this.buttonDisabled=[true,true,true,true,true,true,true,true];
     this.initForm();
   }
 
@@ -35,6 +35,8 @@ export class UploadFormComponent implements OnInit {
       fileUpload: ['', Validators.required]
 
     });
+
+    this.uploadForm.reset();
   }
 
 

@@ -31,7 +31,7 @@ export class CatalogsServiceService {
   }
 
   getCategories=():AngularFireList<Categories>=>{
-       return this.db.list(`CATEGORIES`, ref=>ref.limitToLast(100));
+       return this.db.list(`CATEGORIES`, ref=>ref.orderByChild('attr1').equalTo('10000'));
     }
 
   getPositions=():AngularFireList<Categories>=>{
@@ -39,7 +39,7 @@ export class CatalogsServiceService {
    }
 
    getCategoriesByCat=(category:string):AngularFireList<Categories>=>{
-    return this.db.list("CATEGORIES", ref=>ref.child('attr1').equalTo(category));
+    return this.db.list("CATEGORIES", ref=>ref.orderByChild('attr1').equalTo(category));
  }
 
 }

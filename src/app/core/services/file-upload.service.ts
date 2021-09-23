@@ -12,16 +12,15 @@ import { StorageService } from '../storage.service';
 })
 export class FileUploadService {
 
-  private keyUser;
-  private rootDocuments = "DOCUMENTS_LIGUE/"
+  private rootDocuments = "DOCUMENTS_LIGUE"
   private basePath = this.storageService.getCurrentSession().user.club.toUpperCase().replace("-", "").replace(" ", "_");
 
    constructor(private db: AngularFireDatabase, private storage: AngularFireStorage, private storageService: StorageService) { 
-    this.keyUser = window["key_player"];
+   
    }
 
   pushFileToStorage(fileUpload: FileUpload): Observable<number | undefined> {
-    const filePath = `${this.rootDocuments}/${this.basePath}"/"${this.keyUser}`;
+    const filePath = `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${fileUpload.file.name}`;
     const storageRef = this.storage.ref(filePath);
     const uploadTask = this.storage.upload(filePath, fileUpload.file);
 
@@ -39,13 +38,11 @@ export class FileUploadService {
   }
 
   private saveFileData(fileUpload: FileUpload): void {
-    console.log("save file ---> ", this.keyUser);
-    this.db.list(`${this.rootDocuments}/${this.basePath}/${this.keyUser}`).push(fileUpload);
+    this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`).push(fileUpload);
   }
 
   getFiles(numberItems: number): AngularFireList<FileUpload> {
-    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.keyUser}`, ref =>
-      ref.limitToLast(numberItems));
+    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`);
   }
 
   deleteFile(fileUpload: FileUpload): void {
@@ -57,11 +54,18 @@ export class FileUploadService {
   }
 
   private deleteFileDatabase(key: string): Promise<void> {
-    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.keyUser}`).remove(key);
+    console.log("log: ", `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${key}}`);
+
+    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${key}`).remove(key);
   }
 
   private deleteFileStorage(name: string): void {
-    const storageRef = this.storage.ref(`${this.rootDocuments}/${this.basePath}/${this.keyUser}`);
+    console.log("log: ", `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${name}}`);
+    const storageRef = this.storage.ref(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`);
     storageRef.child(name).delete();
+  }
+
+  private getIdPlayer=(idPlayer:string)=>{
+    return idPlayer.replace("-", "");
   }
 }

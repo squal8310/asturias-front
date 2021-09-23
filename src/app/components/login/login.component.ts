@@ -74,20 +74,7 @@ export class LoginComponent implements OnInit {
       }
 
         signIn=()=> {
-            this.ngxSpin.show();                
-          if(this.loginForm.valid){
-          this.afAuth.signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then(() => {
-            this.router.navigateByUrl('/home');
-            this.ngxSpin.hide();
-          }).catch(({code}) => {
-            this.ngxSpin.hide();
-            if(code == "auth/invalid-email"){
-              this.toastMessg.showFail("Formato correo electrónico erroneo, favor de corregir", "Error");
-             }
-            this.router.navigate(['/login']);
-          });
-
-        }
+          window.print();
       }
             
       ngOnDestroy() {

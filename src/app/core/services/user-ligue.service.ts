@@ -104,6 +104,12 @@ export class UserLigueService {
 
   getAllPlayersByclubAndUser = (): AngularFireList<UserLigue[]>=>{
     this.user = this.stServ.getCurrentUser();
-     return this.db.list(`${USERS_LIGUE_DB}/${this.user.club}`, ref=>ref.child("rol").orderByChild("lastName").equalTo("PLAYER"));
+     return this.db.list(`${USERS_LIGUE_DB}/${this.user.club}`,
+            ref=>ref.orderByChild('rol').equalTo('PLAYER'));
+  }
+
+  removeUserLiguePlayer = (idUserToRemove:string): void=>{
+    this.user = this.stServ.getCurrentUser();
+    this.db.list(`${USERS_LIGUE_DB}/${this.user.club}/${idUserToRemove}`).remove();
   }
 }

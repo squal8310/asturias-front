@@ -1,5 +1,5 @@
 <div class="shadow filter-box">
-  <div class="content md-4">
+  <div class="content mt-5">
      <div class="row">
       <div class="col-6">
           <select class="form-select" value="0" aria-label="Default select example" (change)="changeCatsVal($event.target.value)">
@@ -8,7 +8,7 @@
             </select> 
         </div>
         <div class="col-6">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Agregar Jugador
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
               <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -29,7 +29,6 @@
       </thead>
       <tbody>
         <tr mdbTableCol *ngFor="let el of allPlayers">
-          <th scope="row" style="display: none;">{{el.$key}}</th>
           <td>{{el.name}}</td>
           <td>{{el.lastName}}</td>
           <td>{{el.curp}}</td>
@@ -39,6 +38,17 @@
                       <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                   </svg>
               </button>
+              <button class="ml-1" type="button" (click)="removeUserLiguePlayer(el.$key)" class="btn btn-outline-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                </svg>
+            </button>
+            <button class="ml-1" type="button" (click)="sendToModalIdClient(el.$key)" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalFiles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+              </svg>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -53,27 +63,33 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" >
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Credenciales Asturias</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registro de Jugadores Asturias</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="width: 97%;height: 600px;" >
+      <div class="modal-body" style="width: 97%;height: 950px;" class="mx-auto" >
         <app-players-reg></app-players-reg>
       </div>
       <div class="modal-footer">
-        <div class="row">
-            <a rol="button" [href]="fileUrl" (click)="getCredentialsFn(true,true)" class="button principal" target="_blank"> 
-              Registrar
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-              <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-              <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-            </svg>
-          </a>
-        </div>
-      <div class="row">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
       </div>
     </div>
   </div>
 </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalFiles"  tabindex="-1" aria-labelledby="modalFilesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFilesLabel">Registro de Jugadores Asturias</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="width: 97%;height: 500px;" class="mx-auto" >
+          <app-documents></app-documents>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
  
