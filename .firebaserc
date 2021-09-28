@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "asturiasfire": {
+      "hosting": {
+        "demo": [
+          "asturiasfire"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "asturiasfire"
+  }
+}

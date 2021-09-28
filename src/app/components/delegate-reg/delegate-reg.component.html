@@ -3,7 +3,6 @@
         <div class="col-md-8 col-lg-4 offset-md-4">
             <div class="register-form bg-light mt-4 p-4">
                 <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister()" class="row g-3">
-                    <h4>{{registerUser}}</h4>
                     <div class="col-12">
                         <label>* Club:</label>
                         <input type="text" formControlName="club" name="club" class="form-control" placeholder="Nombre Club" required>

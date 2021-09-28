@@ -13,7 +13,7 @@ import { StorageService } from '../storage.service';
 export class FileUploadService {
 
   private rootDocuments = "DOCUMENTS_LIGUE"
-  private basePath = this.storageService.getCurrentSession().user.club.toUpperCase().replace("-", "").replace(" ", "_");
+  private basePath = "PLAYER";
 
    constructor(private db: AngularFireDatabase, private storage: AngularFireStorage, private storageService: StorageService) { 
    
@@ -54,14 +54,11 @@ export class FileUploadService {
   }
 
   private deleteFileDatabase(key: string): Promise<void> {
-    console.log("log: ", `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${key}}`);
-
-    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${key}`).remove(key);
+    return this.db.list(`${this.rootDocuments}/${this.basePath}/${key}`).remove(key);
   }
 
   private deleteFileStorage(name: string): void {
-    console.log("log: ", `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${name}}`);
-    const storageRef = this.storage.ref(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`);
+       const storageRef = this.storage.ref(`${this.rootDocuments}/${this.basePath}`);
     storageRef.child(name).delete();
   }
 

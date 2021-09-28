@@ -33,7 +33,6 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder,
               private delegatesServ: RegisterDelegatesService,
-              private router: Router,
               private ngxSpin: NgxSpinnerService,
               private catServ: CatalogsServiceService,
               private toastr: ToastMessagesService) { 

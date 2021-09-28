@@ -40,7 +40,7 @@ export class UploadFormComponent implements OnInit {
   }
 
 
-  selectFile(event: any, numButton: number): void {
+  selectFile(event: any): void {
     this.selectedFiles = event.target.files;
     this.percentage = 0;
   }

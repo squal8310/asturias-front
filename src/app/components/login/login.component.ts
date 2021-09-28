@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output, VERSION, ViewChild } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/core/authentication.service';
-import { LoginObject } from 'src/app/core/models/login-object.model';
 import { Session } from 'src/app/core/models/session.model';
 import { StorageService } from 'src/app/core/storage.service';
 
@@ -12,7 +10,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
 import { UserLigue } from 'src/app/core/models/user-ligue.model';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 
@@ -55,13 +52,13 @@ export class LoginComponent implements OnInit {
         }
 
       initSessionIfExistUser=()=>{
-          // this.afAuth.user.subscribe(user => {
-          //   if (user) {
-          //     this.ngZone.run(() => {
-          //       this.router.navigate(['/home']);
-          //     })
-          //   }
-          // });
+          this.afAuth.user.subscribe(user => {
+            if (user) {
+              this.ngZone.run(() => {
+                this.router.navigate(['/home']);
+              })
+            }
+          });
       }
       
       initForm =()=>{
@@ -74,7 +71,17 @@ export class LoginComponent implements OnInit {
       }
 
         signIn=()=> {
-          window.print();
+          this.ngxSpin.show();                
+          if(this.loginForm.valid){
+          this.afAuth.signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then(() => {
+            this.saveDataUserToSession("", "", this.loginForm.value.email);
+            this.router.navigate(['/home']);
+            this.ngxSpin.hide();
+          }).catch(({code}) => {
+            this.ngxSpin.hide();
+            this.router.navigate(['/login']);
+          });
+        }
       }
             
       ngOnDestroy() {
@@ -153,7 +160,7 @@ export class LoginComponent implements OnInit {
 
             let pathCLub = this.loginForm.value.club.toUpperCase().replace(/[\W_]/g,'_');
             
-            this.db.object(`USERS_LIGUE/${pathCLub}/${cred.user.uid}`).set(userLigue).then(upd=>{
+            this.db.object(`USERS_LIGUE/DELEGATES/${cred.user.uid}`).set(userLigue).then(upd=>{
               this.saveDataUserToSession(pathCLub, cred.user.uid, this.loginForm.value.email);
               
               resolve(4);

@@ -30,6 +30,7 @@ import { UploadDetailsComponent } from './components/upload-details/upload-detai
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { CatalogManagerComponent } from './components/catalog-manager/catalog-manager.component';
 
 @NgModule({
   imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule, PdfViewerModule, 
@@ -57,7 +58,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
     PlayersQrComponent, 
     CameraQrComponent,
     DelegateRegComponent, 
-    RecoveryPasswordComponent, UploadFormComponent, UploadListComponent, UploadDetailsComponent],
+    RecoveryPasswordComponent, UploadFormComponent, UploadListComponent, UploadDetailsComponent, CatalogManagerComponent],
   bootstrap:    [ AppComponent ],
   exports: [RoutesAppModule]
 })

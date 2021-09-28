@@ -2,10 +2,22 @@
   <div class="content mt-5">
      <div class="row">
       <div class="col-6">
-          <select class="form-select" value="0" aria-label="Default select example" (change)="changeCatsVal($event.target.value)">
-              <option value="0" selected>Filtro por categoría</option>
-              <option value="{{club.club}}" *ngFor="let club of catClub">{{club.club}}</option>
-            </select> 
+        <form id="filtersForm-id" [formGroup]="filtersForm" (ngSubmit)="filterByCategory()" class="row g-3">
+          <div class="col-12">
+              <label>* Categoria</label>
+              <select class="form-select" formControlName="category" name="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 1)">
+                  <option value="0" selected="selected">Seleccione una categoría</option>
+                  <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                </select>
+          </div>
+          <div class="col-12" *ngIf="!isEmptySubCat()">
+              <label>* SubCategoria</label>
+              <select class="form-select" formControlName="subCategory1" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 2)">
+                  <option value="0" selected>Seleccione una subcategoria</option>
+                  <option value="{{cat1.attr2}}" *ngFor="let cat1 of subCatalog1">{{cat1.name}}</option>
+                </select>
+          </div>
+        </form>
         </div>
         <div class="col-6">
           <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -66,7 +78,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Registro de Jugadores Asturias</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="width: 97%;height: 950px;" class="mx-auto" >
+      <div class="modal-body" style="width: 450;px: 950px;" class="mx-auto" >
         <app-players-reg></app-players-reg>
       </div>
       <div class="modal-footer">

@@ -41,9 +41,10 @@ export class RegisterDelegatesService {
     userLigue.tipo = typeUser;
     userLigue.dateBirth = form.controls.dateBirth.value;
     userLigue.rol = 'PLAYER';
+    userLigue.user = this.stServ.getCurrentSession().user.email;
 
       return new Promise((resolve, reject)=>{
-        this.db.list(`${USERS_LIGUE_DB}/${this.stServ.getCurrentSession().user.club}`).push(userLigue).
+        this.db.list(`${USERS_LIGUE_DB}/PLAYER`).push(userLigue).
         then(created=>{
           console.log("CREATED: ", created)
           // if(created){

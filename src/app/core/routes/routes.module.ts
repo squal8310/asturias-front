@@ -5,13 +5,13 @@ import { HomeComponent } from 'src/app/components/home/home.component';
 import { AuthorizatedGuardGuard } from '../authorizated-guard.guard';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { PlayersRegComponent } from 'src/app/components/players-reg/players-reg.component';
-import { AppComponent } from 'src/app/app.component';
 import { DocumentsComponent } from 'src/app/components/documents/documents.component';
 import { PlayersComponent } from 'src/app/components/players/players.component';
 import { PlayersQrComponent } from 'src/app/components/players-qr/players-qr.component';
 import { CameraQrComponent } from 'src/app/components/camera-qr/camera-qr.component';
 import { DelegateRegComponent } from 'src/app/components/delegate-reg/delegate-reg.component';
 import { RecoveryPasswordComponent } from 'src/app/components/recovery-password/recovery-password.component';
+import { CatalogManagerComponent } from 'src/app/components/catalog-manager/catalog-manager.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -19,19 +19,19 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   {
     path: "players",
-    component: PlayersRegComponent, 
-    canActivate: [ AuthorizatedGuardGuard ]
+    component: PlayersRegComponent
  },
  {
    path: "getPlayers",
-   component: PlayersComponent,
-   outlet: "components", 
-   canActivate: [ AuthorizatedGuardGuard ]
+   component: PlayersComponent
  },
  {
    path: "documents",
-   component: DocumentsComponent, 
-   canActivate: [ AuthorizatedGuardGuard ]
+   component: DocumentsComponent
+},
+{
+  path: "catalog",
+  component: CatalogManagerComponent
 },
 {
   path: "players-qr",
@@ -40,8 +40,7 @@ const appRoutes: Routes = [
 },
 {
   path: "camera-qr",
-  component: CameraQrComponent, 
-  canActivate: [ AuthorizatedGuardGuard ]
+  component: CameraQrComponent
 },
 {
   path: "deleg-reg",

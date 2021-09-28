@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-4">
+            <div class="register-form bg-light mt-4 p-4">
+                <form id="catalog-form" #lForm="ngForm" [formGroup]="registerCatalog" (ngSubmit)="submitregister(registerCatalog)" class="row g-3">
+                    <div class="col-12">
+                        <label>* Nombre Catalgo:</label>
+                         <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre Catalogo" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['name'].invalid && (registerCatalog.controls['name'].dirty || registerCatalog.controls['name'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['name'].errors.required">
+                                Nombre Catálogo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Valor 1:</label>
+                         <input type="text" formControlName="attr1" name="attr1" class="form-control" placeholder="Valor 1" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['attr1'].invalid && (registerCatalog.controls['attr1'].dirty || registerCatalog.controls['attr1'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['attr1'].errors.required">
+                                Valor de catálogo inicial
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Valor 2:</label>
+                         <input type="text" formControlName="attr2" name="attr2" class="form-control" placeholder="Valor 2" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['attr2'].invalid && (registerCatalog.controls['attr2'].dirty || registerCatalog.controls['attr2'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['attr2'].errors.required">
+                                Valor de catálogo inicial
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Valor 3:</label>
+                         <input type="text" formControlName="attr3" name="attr3" class="form-control" placeholder="Valor 3" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['attr3'].invalid && (registerCatalog.controls['attr3'].dirty || registerCatalog.controls['attr3'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['attr3'].errors.required">
+                                Valor de catálogo inicial
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Valor 4:</label>
+                         <input type="text" formControlName="attr4" name="attr4" class="form-control" placeholder="Valor 4" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['attr4'].invalid && (registerCatalog.controls['attr4'].dirty || registerCatalog.controls['attr4'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['attr4'].errors.required">
+                                Valor de catálogo inicial
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>* Valor 5:</label>
+                         <input type="text" formControlName="attr5" name="attr5" class="form-control" placeholder="Valor 5" required>
+                     </div>
+                     
+                    <div class="col-12">
+                        <label>* Valor 6:</label>
+                         <input type="text" formControlName="attr6" name="attr6" class="form-control" placeholder="Valor 6" required>
+                     </div>
+                     <div class="col-12">
+                        <div *ngIf="registerCatalog.controls['attr5'].invalid && (registerCatalog.controls['attr5'].dirty || registerCatalog.controls['attr5'].touched)" class="frm-err">
+                            <div *ngIf="registerCatalog.controls['attr5'].errors.required">
+                                Valor de catálogo inicial
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark float-end">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
