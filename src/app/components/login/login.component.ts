@@ -12,6 +12,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { UserLigue } from 'src/app/core/models/user-ligue.model';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
+import { Club } from 'src/app/core/models/club.model';
 
 
 
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   errorValid: boolean= false;
   subscription: Subscription;
   errorMessage: boolean;
+  private user: User;
 
   constructor(private formBuilder: FormBuilder,
               private db: AngularFireDatabase,
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit {
 
         ngOnInit() {
           this.initForm();
+          this.storageService.removeCurrentSession();
         }
 
       initSessionIfExistUser=()=>{
@@ -120,6 +123,8 @@ export class LoginComponent implements OnInit {
           if(this.loginForm.value.club === undefined || this.loginForm.value.club === null || this.loginForm.value.club === ""){
             this.toastMessg.showFail("Favor de proporcionar club", "Error");
             this.isOkTORegister = false;
+            
+            this.router.navigate(['/login']);
             this.ngxSpin.hide(); 
           }
         //    console.log(this.loginForm.value.club);
@@ -136,6 +141,8 @@ export class LoginComponent implements OnInit {
         if((this.loginForm.value.repPassw === undefined || this.loginForm.value.repPassw === null || this.loginForm.value.repPassw === "")){
             this.toastMessg.showFail("Favor de repetir contraseña", "Error");
             this.isOkTORegister = false;
+            
+            this.router.navigate(['/login']);
             this.ngxSpin.hide(); 
         }
       }
@@ -145,29 +152,31 @@ export class LoginComponent implements OnInit {
         if((this.loginForm.value.password !== this.loginForm.value.repPassw)){
             this.toastMessg.showFail("Contraseñas no coinciden", "Error");
             this.isOkTORegister = false;
+            
+            this.router.navigate(['/login']);
             this.ngxSpin.hide(); 
           }
       }
 
+   
       proccessRegisterUser=()=>{
         return new Promise((resolve, reject)=>{
           this.afAuth.createUserWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then((cred) => {
             let userLigue: UserLigue= new UserLigue();
-            userLigue.club =  this.loginForm.value.club;
+            let pathCLub = this.loginForm.value.club.toUpperCase().replace(/[\W_]/g,'_');
+            userLigue.club = pathCLub;
             userLigue.user = this.loginForm.value.email;
             userLigue.tipo = 2;      
             userLigue.rol = 'DELEGATE';
 
-            let pathCLub = this.loginForm.value.club.toUpperCase().replace(/[\W_]/g,'_');
-            
-            this.db.object(`USERS_LIGUE/DELEGATES/${cred.user.uid}`).set(userLigue).then(upd=>{
+           
+            this.db.object(`USERS_LIGUE/${cred.user.uid}`).set(userLigue).then(upd=>{
               this.saveDataUserToSession(pathCLub, cred.user.uid, this.loginForm.value.email);
-              
+              this.createCatalogClub(pathCLub, this.loginForm.value.club);
               resolve(4);
               this.ngxSpin.hide();
               this.router.navigate(['/home']);
             });
-           
            }).catch(({code}) => {
              reject(`promesa 4 fallo:  ${code}`);
              if(code == "auth/email-already-in-use"){
@@ -177,9 +186,33 @@ export class LoginComponent implements OnInit {
              if(code == "auth/invalid-email"){
               this.toastMessg.showFail("Formato correo electrónico erroneo, favor de corregir", "Error");
              }
+
+             if(code == "auth/wrong-password"){
+              this.toastMessg.showFail("Contraseña invalida", "Error");
+             }
              
+
              this.ngxSpin.hide();
+             
+             this.router.navigate(['/login']);
            });
+        });
+      }
+
+      createCatalogClub=(id:string, value:string)=>{
+        let club: Club = new Club();
+            club.id = id;
+            club.name = value;
+        this.db.list(`CATALOG/CLUBS`).push(club).
+        then(created=>{
+          console.log("CREATED CLUB: ", created)
+          // if(created){
+          //   created.then(item=>{
+          //     resolve(item.key);
+          //   });
+          // }else{
+          //   reject("No se creo el Jugador");
+          // }
         });
       }
 

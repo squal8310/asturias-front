@@ -15,12 +15,12 @@ export class FileUploadService {
   private rootDocuments = "DOCUMENTS_LIGUE"
   private basePath = "PLAYER";
 
-   constructor(private db: AngularFireDatabase, private storage: AngularFireStorage, private storageService: StorageService) { 
+   constructor(private db: AngularFireDatabase, private storage: AngularFireStorage, private stServ: StorageService) { 
    
    }
 
   pushFileToStorage(fileUpload: FileUpload): Observable<number | undefined> {
-    const filePath = `${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}/${fileUpload.file.name}`;
+    const filePath = `${this.rootDocuments}/${this.basePath}/${this.stServ.getCurrentSession().user.club}/${this.getIdPlayer(window['idClientGlobal'])}/${fileUpload.file.name}`;
     const storageRef = this.storage.ref(filePath);
     const uploadTask = this.storage.upload(filePath, fileUpload.file);
 
@@ -38,11 +38,11 @@ export class FileUploadService {
   }
 
   private saveFileData(fileUpload: FileUpload): void {
-    this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`).push(fileUpload);
+    this.db.list(`${this.rootDocuments}/${this.basePath}/${this.stServ.getCurrentSession().user.club}/${this.getIdPlayer(window['idClientGlobal'])}`).push(fileUpload);
   }
 
   getFiles(numberItems: number): AngularFireList<FileUpload> {
-    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.getIdPlayer(window['idClientGlobal'])}`);
+    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.stServ.getCurrentSession().user.club}/${this.getIdPlayer(window['idClientGlobal'])}`);
   }
 
   deleteFile(fileUpload: FileUpload): void {
@@ -54,11 +54,11 @@ export class FileUploadService {
   }
 
   private deleteFileDatabase(key: string): Promise<void> {
-    return this.db.list(`${this.rootDocuments}/${this.basePath}/${key}`).remove(key);
+    return this.db.list(`${this.rootDocuments}/${this.basePath}/${this.stServ.getCurrentSession().user.club}/${key}`).remove(key);
   }
 
   private deleteFileStorage(name: string): void {
-       const storageRef = this.storage.ref(`${this.rootDocuments}/${this.basePath}`);
+       const storageRef = this.storage.ref(`${this.rootDocuments}/${this.stServ.getCurrentSession().user.club}/${this.basePath}`);
     storageRef.child(name).delete();
   }
 

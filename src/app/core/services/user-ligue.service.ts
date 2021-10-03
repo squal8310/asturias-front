@@ -19,33 +19,10 @@ export class UserLigueService {
   private user: User;
   constructor(private stServ: StorageService, private db: AngularFireDatabase) { 
     this.user = this.stServ.getCurrentUser();
-    console.log("User logged ", this.user);
   }
 
   setUserSession=()=>{
     
-  }
-
-  save=(tipo:number, form:NgForm)=>{
-    let userLigue: UserLigue= new UserLigue();
-    let formDataJs = JSON.parse( window['formRegisterDelegates']);
-    
-    userLigue.cat = formDataJs['category'];
-    userLigue.subcategoria1 = formDataJs['subCategory1'];
-    userLigue.subcategoria2 = formDataJs['subCategory2'];
-    userLigue.subcategoria3 = formDataJs['subCategory3'];
-    userLigue.name = formDataJs['name'];
-    userLigue.lastName = formDataJs['lastName'];
-    userLigue.curp = formDataJs['curp'];
-    userLigue.position = formDataJs['position'];
-    userLigue.noPlayer = formDataJs['number'];
-    userLigue.tipo = tipo;
-    userLigue.club =  this.user.club;
-    userLigue.user = '';
-    userLigue.tipo = 1;      
-    userLigue.rol = 'PLAYER';
-
-    this.db.object(`USERS_LIGUE/PLAYER`).set(userLigue);
   }
 
   getByUserDelegate=()=>{
@@ -103,18 +80,38 @@ export class UserLigueService {
      }); 
   }
 
-  getByUserLogged = (): AngularFireList<UserLigue>=>{
-     return this.db.list(`${USERS_LIGUE_DB}/DELEGATES`, ref=>ref.orderByChild('user').equalTo(`${this.user.email}`));
+  getByUserLogged = (mail:string): AngularFireList<UserLigue>=>{
+     return this.db.list(`${USERS_LIGUE_DB}`, ref=>ref.orderByChild('user').equalTo(`${mail}`));
   }
 
-  getAllPlayersByUser = (): AngularFireList<UserLigue[]>=>{
-     return this.db.list(`${USERS_LIGUE_DB}/PLAYER/`,
-     
-            ref=>ref.orderByChild('user').equalTo(`${this.user.email}`));
+  getAllPlayersByUser = (email: string): AngularFireList<UserLigue[]>=>{
+    return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}`,
+            ref=>ref.orderByChild('user').equalTo(`${email}`));
   }
 
   removeUserLiguePlayer = (idUserToRemove:string): void=>{
     this.user = this.stServ.getCurrentUser();
-    this.db.list(`${USERS_LIGUE_DB}/PLAYER/${idUserToRemove}`).remove();
+    this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}/${idUserToRemove}`).remove();
   }
+
+  getUserDocumentBy = (idUserToRemove:string): void=>{
+    this.user = this.stServ.getCurrentUser();
+    this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}${idUserToRemove}`).remove();
+  }
+
+  getUserByClubAndCategory = (club:string, cat:string, subcategoria1:string):  AngularFireList<UserLigue[]>=>{
+  
+    if(cat !== '0' && subcategoria1 === '0'){
+      return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${club}`,
+      ref=>ref.orderByChild('cat').equalTo(`${cat}`));
+    }
+
+    if(cat !== '0' && subcategoria1 !== '0'){
+      return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${club}`,
+            ref=>ref.orderByChild('subcategoria1').equalTo(`${subcategoria1}`));
+    }
+  
+    
+  }
+  
 }

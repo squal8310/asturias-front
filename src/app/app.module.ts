@@ -31,6 +31,14 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { CatalogManagerComponent } from './components/catalog-manager/catalog-manager.component';
+import { HomeAdminComponent } from './components/home-admin/home-admin.component';
+import { AdDirectiveDirective } from './core/directives/ad-directive.directive';
+import { CredentialsComponent } from './components/credentials/credentials.component';
+
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { CredentialsPrintComponent } from './components/credentials-print/credentials-print.component';
+import { CredentialsFiltersComponent } from './components/credentials-filters/credentials-filters.component';
+import { CredentialComponent } from './components/credential/credential.component';
 
 @NgModule({
   imports:      [  BrowserModule, FormsModule, ReactiveFormsModule, RoutesAppModule, PdfViewerModule, 
@@ -42,6 +50,7 @@ import { CatalogManagerComponent } from './components/catalog-manager/catalog-ma
     AngularFireModule.initializeApp(firebasedata.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    NgxWebstorageModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
       //preventDuplicates: true
@@ -58,7 +67,7 @@ import { CatalogManagerComponent } from './components/catalog-manager/catalog-ma
     PlayersQrComponent, 
     CameraQrComponent,
     DelegateRegComponent, 
-    RecoveryPasswordComponent, UploadFormComponent, UploadListComponent, UploadDetailsComponent, CatalogManagerComponent],
+    RecoveryPasswordComponent, UploadFormComponent, UploadListComponent, UploadDetailsComponent, CatalogManagerComponent, HomeAdminComponent, AdDirectiveDirective, CredentialsComponent, CredentialsPrintComponent, CredentialsFiltersComponent, CredentialComponent],
   bootstrap:    [ AppComponent ],
   exports: [RoutesAppModule]
 })

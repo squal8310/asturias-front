@@ -9,18 +9,20 @@
                     </a>
                   
                 </li>
-                <li class="has-subnav">
-                    <a (click)="loadPlayerModuleM()">
-                        <i class="fa fa-table fa-2x"></i>
+
+                
+                <li class="has-subnav" *ngFor="let menu of menusByRol">
+                    <a (click)="loadPlayerModuleM(menu.attr4)">
+                        <i class="fa {{menu.attr5}} fa-2x"></i>
                         <span class="nav-text">
-                            Registro Jugadores
+                            {{menu.attr1}}
                         </span>
                     </a>
                 </li>
             </ul>
             <ul class="logout">
                 <li>
-                   <a href="#">
+                   <a (click)="logOut()">
                          <i class="fa fa-power-off fa-2x"></i>
                         <span class="nav-text">
                             Salir
@@ -30,5 +32,5 @@
             </ul>
         </nav>
     <div class="content-ng">
-        <app-players *ngIf="loadPlayerModule"></app-players>
+        <ng-template adHost></ng-template>
     </div>

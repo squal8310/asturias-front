@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 import { Session } from './models/session.model';
 import { User } from './models/user.model';
 
@@ -8,22 +9,29 @@ import { User } from './models/user.model';
 })
 export class StorageService {
 
-  private localStorageService;
   private currentSession : Session = null;
 
-  constructor(private router: Router) { 
-    this.localStorageService = localStorage;
+  constructor(private router: Router, private stg: LocalStorageService) { 
     this.currentSession = this.loadSessionData();
   }
 
   
   setCurrentSession(session: Session): void {
     this.currentSession = session;
-    this.localStorageService.setItem('currentUser', JSON.stringify(session));
+    this.stg.store('currentUser', JSON.stringify(session));
+  }
+
+  setDataStorage(nameOfData: string,stringJson: string): void {
+    this.stg.store(nameOfData, JSON.stringify(stringJson));
+  }
+
+  getDataStorage(nameData:string): Object{
+    var dataObj = this.stg.retrieve(nameData);
+    return  JSON.parse(dataObj);
   }
 
   loadSessionData(): Session{
-    var sessionStr = this.localStorageService.getItem('currentUser');
+    var sessionStr = this.stg.retrieve('currentUser');
     return (sessionStr) ? <Session> JSON.parse(sessionStr) : null;
   }
 
@@ -32,7 +40,7 @@ export class StorageService {
   }
 
   removeCurrentSession(): void {
-    this.localStorageService.removeItem('currentUser');
+    this.stg.clear('currentUser');
     this.currentSession = null;
   }
 

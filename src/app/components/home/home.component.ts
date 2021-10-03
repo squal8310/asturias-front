@@ -1,10 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Router } from '@angular/router';
-import {  Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AdComponent } from 'src/app/core/classes/ad-component';
+import { AdDirectiveDirective } from 'src/app/core/directives/ad-directive.directive';
 import { Session } from 'src/app/core/models/session.model';
 import { User } from 'src/app/core/models/user.model';
+import { AdComponentService } from 'src/app/core/services/ad-component.service';
+import { MenuByRolService } from 'src/app/core/services/menu-by-rol.service';
 import { UserLigueService } from 'src/app/core/services/user-ligue.service';
 import { StorageService } from 'src/app/core/storage.service';
 
@@ -18,58 +21,46 @@ export class HomeComponent implements OnInit {
 
   isLoging: boolean= false;
 
-  subscription: Subscription;
   userLigue?: any[];
+  menusByRol?: any[];
   email: string;
   public loadPlayerModule: boolean = false;
-
-
+  @ViewChild(AdDirectiveDirective, {static: true}) adHost!: AdDirectiveDirective;
+  private user: User;
   // @Input()
   // user: User;
 
-  constructor(private storageService:StorageService, private usersLigueService: UserLigueService,
-    private router: Router) { }
+  constructor(private storageService:StorageService,
+              private usersLigueService: UserLigueService,
+              private router: Router,
+              private menuServ: MenuByRolService,
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private adsItems: AdComponentService,
+              private stServ: StorageService) {
+               }
 
   ngOnInit() {
-    this.callToService();
+    this.menusByRol = [];
+    this.userLigue = [];
+    let user = this.storageService.getCurrentSession().user.email;
+    this.callToService(user);
   }
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    //this.subscription.unsubscribe();
+    //this.storageService.removeCurrentSession();
 }
 
-callToService=()=>{
-  this.usersLigueService.getByUserLogged().snapshotChanges().pipe(
+callToService=(email:string)=>{
+  this.usersLigueService.getByUserLogged(email).snapshotChanges().pipe(
     map(changes =>
       // store the key
-      changes.map(c => ({ key: c.payload.key, value: c.payload.val() }))
+      changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
     )
     ).subscribe(values=>{
     this.userLigue=values;
-    console.log("USER_DATA ",this.userLigue);
-    // let sess:Session=new Session();
-    // let user: User=new User();
-    // console.log("----> ", this.userLigue[0]);
-    // user.club = this.userLigue[0];
-    // user.id = userId;
-    // user.email = email;
-    // sess.user = user;
-    // this.storageService.setCurrentSession();
+    this.getMenuByRole(this.userLigue[0].rol);
+    this.saveDataUserToSession(this.userLigue[0].club, "", this.userLigue[0].user);
   });
-}
-
-getMenuByRole=(rol:string):void=>{
-   
-}
-
-loadPlayerModuleM=()=>{
-this.loadPlayerModule = true;
-}
-
-loadHome=()=>{
-  this.router.navigateByUrl('/home');
-  this.loadPlayerModule = false;
 }
 
 saveDataUserToSession=(club: string, userId:string, email:string)=>{
@@ -84,6 +75,43 @@ saveDataUserToSession=(club: string, userId:string, email:string)=>{
     resolve(true);
 });
                  
+}
+
+getMenuByRole=(rol:string):void=>{
+  
+  console.log("ROL: ", rol);
+   this.menuServ.getCategories(rol).snapshotChanges().pipe(
+    map(changes =>
+      // store the key
+      changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+    )
+    ).subscribe(values=>{
+    this.menusByRol=values;
+  });
+}
+
+loadPlayerModuleM=(item:number)=>{
+  const adItem = this.adsItems.getComponent()[item];
+
+  const componentFactory = this.componentFactoryResolver.resolveComponentFactory(adItem.component);
+
+  const viewContainerRef = this.adHost.viewContainerRef;
+  viewContainerRef.clear();
+
+  const componentRef = viewContainerRef.createComponent<AdComponent>(componentFactory);
+  componentRef.instance.data = adItem.data;
+}
+
+loadHome=()=>{
+  this.router.navigateByUrl('/home');
+  this.loadPlayerModule = false;
+}
+
+logOut=()=>{
+  this.menusByRol = [];
+  this.userLigue = [];
+  this.storageService.removeCurrentSession();
+  this.router.navigateByUrl('/login');
 }
 
 }

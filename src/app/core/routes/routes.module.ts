@@ -12,6 +12,7 @@ import { CameraQrComponent } from 'src/app/components/camera-qr/camera-qr.compon
 import { DelegateRegComponent } from 'src/app/components/delegate-reg/delegate-reg.component';
 import { RecoveryPasswordComponent } from 'src/app/components/recovery-password/recovery-password.component';
 import { CatalogManagerComponent } from 'src/app/components/catalog-manager/catalog-manager.component';
+import { CredentialsPrintComponent } from 'src/app/components/credentials-print/credentials-print.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -50,6 +51,10 @@ const appRoutes: Routes = [
 {
   path: "recovery-pws",
   component: RecoveryPasswordComponent
+},
+{
+  path: "credentials-print",
+  component: CredentialsPrintComponent
 }
 ];
 

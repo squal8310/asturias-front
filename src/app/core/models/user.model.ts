@@ -4,4 +4,5 @@ export class User {
     public club: string = "";
     public surname: string = "";
     public email: string = "";
+    public rol: string = "";
 }

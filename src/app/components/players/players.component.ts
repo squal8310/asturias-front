@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { StorageService } from 'src/app/core/storage.service';
 
 @Component({
   selector: 'app-players',
@@ -42,7 +43,8 @@ export class PlayersComponent implements OnInit {
               private userLigueService:UserLigueService,
               private toastr: ToastMessagesService,
               private ngxSpin: NgxSpinnerService,
-              private catServ: CatalogsServiceService) { }
+              private catServ: CatalogsServiceService,
+              private stServ: StorageService) { }
 
 
   ngOnInit(): void {
@@ -65,7 +67,7 @@ export class PlayersComponent implements OnInit {
 
   initPlayers=()=>{
     this.ngxSpin.show();
-    this.userLigueService.getAllPlayersByUser().snapshotChanges().
+    this.userLigueService.getAllPlayersByUser(this.stServ.getCurrentSession().user.email).snapshotChanges().
     pipe(
       map(changes =>
         // store the key
@@ -83,7 +85,6 @@ export class PlayersComponent implements OnInit {
   }
 
   sendToModalIdClient=(idClient:string)=>{
-    console.log("el idcliente: ",idClient)
     window['idClientGlobal']= idClient;
   }
 
