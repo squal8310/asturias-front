@@ -25,9 +25,8 @@ export class StorageService {
     this.stg.store(nameOfData, JSON.stringify(stringJson));
   }
 
-  getDataStorage(nameData:string): Object{
-    var dataObj = this.stg.retrieve(nameData);
-    return  JSON.parse(dataObj);
+  getDataStorage(nameData:string): string{
+    return this.stg.retrieve(nameData);
   }
 
   loadSessionData(): Session{

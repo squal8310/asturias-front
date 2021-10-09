@@ -5,3 +5,24 @@
 .frm-err{
     color: red;
 }
+
+/* Suffix this section at the end of your styles.css for toogling between @media screen and @media print mode */
+/*############################################################################################################*/
+/* app-credentials-print {
+    display: none;
+  } */
+/*   
+  @media print {
+    app-credentials-filters {
+      display: none;
+    }
+  
+    app-credentials-print {
+      display: block;
+    }
+
+    app-home {
+      display: none;
+    }
+  } */
+  /*#############################################################################################################*/

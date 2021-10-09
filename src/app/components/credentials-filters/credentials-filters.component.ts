@@ -1,5 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs/operators';
 import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
@@ -32,7 +33,8 @@ export class CredentialsFiltersComponent implements OnInit {
     private toastr: ToastMessagesService,
     private ngxSpin: NgxSpinnerService,
     private catServ: CatalogsServiceService,
-    private stServ: StorageService
+    private stServ: StorageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -88,16 +90,19 @@ export class CredentialsFiltersComponent implements OnInit {
   }
 
   filterData = () => {
+    this.ngxSpin.show();
     this.userLigueService.getUserByClubAndCategory(this.clubVal, this.catVal, this.subCat1Val).snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
     ).subscribe(values => {
-
       this.credentials = values;
       this.stServ.setDataStorage("credentialsData", JSON.stringify(this.credentials));
-      console.log("credentialsStore: ------> ", this.stServ.getDataStorage("credentialsData"))
+      setTimeout(()=>{
+        this.ngxSpin.hide();
+        this.router.navigate(['/credentials-print']);
+      }, 1500);
     });
   }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserLigue } from 'src/app/core/models/user-ligue.model';
 
 @Component({
   selector: 'app-credential',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./credential.component.css']
 })
 export class CredentialComponent implements OnInit {
+
+  @Input()
+  public credentialp:UserLigue;
 
   constructor() { }
 
