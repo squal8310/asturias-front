@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 import { map } from 'rxjs/operators';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
+import { UserLigueService } from 'src/app/core/services/user-ligue.service';
 
 @Component({
   selector: 'app-players-reg',
@@ -32,7 +33,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   @ViewChild('fcCatego') fcCatego: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
-              private delegatesServ: RegisterDelegatesService,
+              private userLigueService: UserLigueService,
               private ngxSpin: NgxSpinnerService,
               private catServ: CatalogsServiceService,
               private toastr: ToastMessagesService) { 
@@ -130,7 +131,6 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
   submitregister=(registerFormp)=>{
     let failSubcat1 = false;
-    console.log("registro");
     if(this.isNotSelectedSubCat()){
       this.toastr.showFail("Favor de seleccionar una subcategoría", "Error subcategoría");
       failSubcat1 = true;
@@ -138,8 +138,10 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
     if(this.registerForm.valid && !failSubcat1){
       this.ngxSpin.show();
-      this.delegatesServ.saveUser(registerFormp, 1);
-      this.toastr.showSuccess("Registro guardado correctamente", "Info");
+      this.userLigueService.saveUserPlayer(registerFormp, 1).then(playerSaved=>{
+        console.log("player saved: ", playerSaved);
+        this.toastr.showSuccess("Registro guardado correctamente", "Info");
+      });
     }else{
       this.incompleteFrm = true;
     }

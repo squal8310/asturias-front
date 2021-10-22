@@ -172,7 +172,6 @@ export class LoginComponent implements OnInit {
            
             this.db.object(`USERS_LIGUE/${cred.user.uid}`).set(userLigue).then(upd=>{
               this.saveDataUserToSession(pathCLub, cred.user.uid, this.loginForm.value.email);
-              this.createCatalogClub(pathCLub, this.loginForm.value.club);
               resolve(4);
               this.ngxSpin.hide();
               this.router.navigate(['/home']);
@@ -199,22 +198,6 @@ export class LoginComponent implements OnInit {
         });
       }
 
-      createCatalogClub=(id:string, value:string)=>{
-        let club: Club = new Club();
-            club.id = id;
-            club.name = value;
-        this.db.list(`CATALOG/CLUBS`).push(club).
-        then(created=>{
-          console.log("CREATED CLUB: ", created)
-          // if(created){
-          //   created.then(item=>{
-          //     resolve(item.key);
-          //   });
-          // }else{
-          //   reject("No se creo el Jugador");
-          // }
-        });
-      }
 
       saveDataUserToSession=(club: string, userId:string, email:string)=>{
         return new Promise((resolve, reject)=>{ 

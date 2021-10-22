@@ -65,8 +65,8 @@ export class DelegateRegComponent implements OnInit {
       this.ngxSpin.show();
       window['formRegisterDelegates'] = JSON.stringify(this.registerForm.value);
       this.ngxSpin.show();
-      this.regDelegate.saveUser(this.registerForm.value, 2).then(result=>{
-        console.log("-------> ",result);
+      // this.regDelegate.saveUser(this.registerForm.value, 2).then(result=>{
+      //   console.log("-------> ",result);
             // if(datjs.responseOK){
             //   this.registerForm.reset();
             //   this.showSuccess("Informe", "Se guardo su información correctamente");
@@ -78,7 +78,7 @@ export class DelegateRegComponent implements OnInit {
             //   this.showWarning("Atención", "Favor de usar otro usario");
             // }
         
-      });
+      // });
     }else{
       this.incompleteFrm = true;
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Categories } from '../models/categories.model';
 
 @Injectable({
@@ -21,6 +21,10 @@ export class CategoriesService {
     cat.attr5 = "0";
     const idPlayer = this.db.list("POSITIONS").push(cat);
         return;
+  }
+
+  saveCategoriesClub = (club: string): AngularFireList<any>=>{
+      return this.db.list(`CLUBS_CATEGORIES/${club}`);
   }
   
 }

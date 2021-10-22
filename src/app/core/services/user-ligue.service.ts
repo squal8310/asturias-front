@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { URL, USERS_LIGUE_DB } from 'src/environments/environment';
+import { ClubCategory } from '../models/Club-Category.model';
 import { UserLigue } from '../models/user-ligue.model';
 import { User } from '../models/user.model';
 import { StorageService } from '../storage.service';
@@ -99,7 +100,7 @@ export class UserLigueService {
     this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}${idUserToRemove}`).remove();
   }
 
-  getUserByClubAndCategory = (club:string, cat:string, subcategoria1:string):  AngularFireList<UserLigue[]>=>{
+  getPlayersByClubAndCategory = (club:string, cat:string, subcategoria1:string):  AngularFireList<UserLigue[]>=>{
   
     if(cat !== '0' && subcategoria1 === '0'){
       return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${club}`,
@@ -110,8 +111,35 @@ export class UserLigueService {
       return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${club}`,
             ref=>ref.orderByChild('subcategoria1').equalTo(`${subcategoria1}`));
     }
-  
-    
   }
+
+  getClubAndCategory = (club:string): AngularFireList<UserLigue>=>{
+    return this.db.list(`CLUBS_CATEGORIES/${club}`);
+  }
+
+  saveUserPlayer=(form:NgForm, typeUser:number)=>{
+    let userLigue: UserLigue= new UserLigue();
+    let clubCategory: ClubCategory= new ClubCategory();
+    let clubMayus =  this.stServ.getCurrentSession().user.club;
+    userLigue.cat = form.controls.category.value;
+    userLigue.subcategoria1 = form.controls.subCategory1.value != undefined ? form.controls.subCategory1.value : "";
+    userLigue.subcategoria2 = form.controls.subCategory2.value != undefined ? form.controls.subCategory2.value : "";
+    userLigue.subcategoria3 = form.controls.subCategory3.value != undefined ? form.controls.subCategory3.value : "";
+    userLigue.club = clubMayus;
+    userLigue.name = form.controls.name.value;
+    userLigue.lastName = form.controls.lastName.value;
+    userLigue.curp = form.controls.curp.value;
+    userLigue.position = form.controls.position.value;
+    userLigue.noPlayer = form.controls.number.value;
+    userLigue.tipo = typeUser;
+    userLigue.dateBirth = form.controls.dateBirth.value;
+    userLigue.rol = 'PLAYER';
+    userLigue.user = this.stServ.getCurrentSession().user.email;
+    clubCategory.category = form.controls.category.value;
+    clubCategory.subCategory1 = form.controls.subCategory1.value;
+    this.db.list(`CLUBS_CATEGORIES/${clubMayus}/${form.controls.category.value}`).push(clubCategory);
+    return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${clubMayus}`).push(userLigue);
+  }
+
   
 }

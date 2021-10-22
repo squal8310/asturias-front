@@ -25,41 +25,6 @@ export class RegisterDelegatesService {
     }); 
   }
 
-  saveUser=(form:NgForm, typeUser:number)=>{
-    console.log("REG USER");
-    let userLigue: UserLigue= new UserLigue();
-    let clubMayus =  this.stServ.getCurrentSession().user.club;
-    userLigue.cat = form.controls.category.value;
-    userLigue.subcategoria1 = form.controls.subCategory1.value != undefined ? form.controls.subCategory1.value : "";
-    userLigue.subcategoria2 = form.controls.subCategory2.value != undefined ? form.controls.subCategory2.value : "";
-    userLigue.subcategoria3 = form.controls.subCategory3.value != undefined ? form.controls.subCategory3.value : "";
-    userLigue.club = clubMayus;
-    userLigue.name = form.controls.name.value;
-    userLigue.lastName = form.controls.lastName.value;
-    userLigue.curp = form.controls.curp.value;
-    userLigue.position = form.controls.position.value;
-    userLigue.noPlayer = form.controls.number.value;
-    userLigue.tipo = typeUser;
-    userLigue.dateBirth = form.controls.dateBirth.value;
-    userLigue.rol = 'PLAYER';
-    userLigue.user = this.stServ.getCurrentSession().user.email;
-
-      return new Promise((resolve, reject)=>{
-        this.db.list(`${USERS_LIGUE_DB}/PLAYER/${clubMayus}`).push(userLigue).
-        then(created=>{
-          console.log("CREATED: ", created)
-          // if(created){
-          //   created.then(item=>{
-          //     resolve(item.key);
-          //   });
-          // }else{
-          //   reject("No se creo el Jugador");
-          // }
-        });
-      });
-
-  }
-
   changePasswordUser=(form:NgForm)=>{
     let userLigue: UserLigue= new UserLigue();
     let changePasswordDelegate= 'public/delegates/changepassword';

@@ -91,7 +91,7 @@ export class CredentialsFiltersComponent implements OnInit {
 
   filterData = () => {
     this.ngxSpin.show();
-    this.userLigueService.getUserByClubAndCategory(this.clubVal, this.catVal, this.subCat1Val).snapshotChanges().pipe(
+    this.userLigueService.getPlayersByClubAndCategory(this.clubVal, this.catVal, this.subCat1Val).snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
