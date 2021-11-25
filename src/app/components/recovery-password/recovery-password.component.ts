@@ -40,17 +40,7 @@ export class RecoveryPasswordComponent implements OnInit {
     if(this.recoveryForm.valid){
       this.ngxSpin.show();
       window['formrecoveryDelegates'] = JSON.stringify(this.recoveryForm.value);
-      this.regDelegate.changePasswordUser(form).then(result=>{
-        result.text().then(data=>{
-          let datjs = JSON.parse(data);
-            if(datjs.responseOK == "USER_PASSWORD_CHANGED"){
-              this.recoveryForm.reset();
-              this.showSuccess("Info", "Se actualizo su información correctamente");
-              this.ngxSpin.hide();
-              this.router.navigate(["/login"]);
-            }
-        });
-      });
+      
     }else{
       this.incompleteFrm = true;
     }

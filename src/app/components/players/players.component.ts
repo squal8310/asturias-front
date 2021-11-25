@@ -1,11 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UserLigueService } from 'src/app/core/services/user-ligue.service';
-
-import { DomSanitizer } from '@angular/platform-browser';
-import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
-import { ToastrService } from 'ngx-toastr';
+import { PlayerService } from 'src/app/core/services/player.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { UserLigue } from 'src/app/core/models/user-ligue.model';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
@@ -40,7 +35,7 @@ export class PlayersComponent implements OnInit {
   public subCat1Val:string = "0";
 
   constructor(private formBuilder: FormBuilder,
-              private userLigueService:UserLigueService,
+              private userLigueService:PlayerService,
               private toastr: ToastMessagesService,
               private ngxSpin: NgxSpinnerService,
               private catServ: CatalogsServiceService,
@@ -78,10 +73,6 @@ export class PlayersComponent implements OnInit {
       this.allPlayers=values;     
       this.ngxSpin.hide();
     });
-  }
-
-  removeUserLiguePlayer=(userIdToRemove:string):void=>{
-    this.userLigueService.removeUserLiguePlayer(userIdToRemove);
   }
 
   sendToModalIdClient=(idClient:string)=>{

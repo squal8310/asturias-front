@@ -8,7 +8,7 @@ import { Session } from 'src/app/core/models/session.model';
 import { User } from 'src/app/core/models/user.model';
 import { AdComponentService } from 'src/app/core/services/ad-component.service';
 import { MenuByRolService } from 'src/app/core/services/menu-by-rol.service';
-import { UserLigueService } from 'src/app/core/services/user-ligue.service';
+import { DelegateService } from 'src/app/core/services/delegate.service';
 import { StorageService } from 'src/app/core/storage.service';
 
 
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   // user: User;
 
   constructor(private storageService:StorageService,
-              private usersLigueService: UserLigueService,
+              private usersLigueService: DelegateService,
               private router: Router,
               private menuServ: MenuByRolService,
               private componentFactoryResolver: ComponentFactoryResolver,

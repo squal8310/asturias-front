@@ -3,12 +3,12 @@
         <div class="col-lg-8 col-md-4">
             <div class="register-form bg-light mt-4 p-4">
                 <form id="register-form" #lForm="ngForm" [formGroup]="registerForm" (ngSubmit)="submitregister(registerForm)" class="row g-3">
-                   
+
                     <div class="col-12">
                         <label>* Categoria</label>
                         <select class="form-select" formControlName="category" name="category" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 1)">
                             <option value="0" selected="selected">Seleccione una categoría</option>
-                            <option value="{{cat.attr2}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
+                            <option value="{{cat.attr2}}-{{cat.name}}" *ngFor="let cat of catalogsJson">{{cat.name}}</option>
                           </select>
                     </div>
                     <div class="col-12">
@@ -22,21 +22,12 @@
                         <label>* SubCategoria</label>
                         <select class="form-select" formControlName="subCategory1" aria-label="Default select example" (change)="changeCategoriesiF($event.target.value, 2)">
                             <option value="0" selected>Seleccione una subcategoria</option>
-                            <option value="{{cat1.attr2}}" *ngFor="let cat1 of subCatalog1">{{cat1.name}}</option>
+                            <option value="{{cat1.attr2}}-{{cat1.name}}" *ngFor="let cat1 of subCatalog1">{{cat1.name}}</option>
                           </select>
                     </div>
                     <div class="col-12">
                         <label>* Fecha nacimiento:</label>
-                        <input type="text" 
-                               formControlName="dateBirth" 
-                               name="dateBirth" 
-                               class="form-control"
-                               [minDate]="minDate"
-                               [maxDate]="maxDate" 
-                               bsDatepicker 
-                               placeholder="dia/mes/año"
-                               [readonly]=true
-                               [(bsValue)]="maxDate">
+                        <input type="text" formControlName="dateBirth" name="dateBirth" class="form-control" [minDate]="minDate" [maxDate]="maxDate" bsDatepicker placeholder="dia/mes/año" [readonly]=true [(bsValue)]="maxDate">
                     </div>
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['dateBirth'].invalid && (registerForm.controls['dateBirth'].dirty || registerForm.controls['dateBirth'].touched)" class="frm-err">
@@ -47,9 +38,9 @@
                     </div>
                     <div class="col-12">
                         <label>* Nombre Jugador:</label>
-                         <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre jugador" required>
-                     </div>
-                     <div class="col-12">
+                        <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nombre jugador" required>
+                    </div>
+                    <div class="col-12">
                         <div *ngIf="registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['name'].errors.required">
                                 Introducir nombre del jugador
@@ -59,27 +50,27 @@
                     <div class="col-12">
                         <label>* Apellidos:</label>
                         <input type="text" formControlName="lastName" name="lastName" class="form-control" placeholder="Apellidos">
-                    </div> 
-                    
+                    </div>
+
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['lastName'].invalid && (registerForm.controls['lastName'].dirty || registerForm.controls['lastName'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['lastName'].errors.required">
                                 Introducir apellidos del jugador
                             </div>
                         </div>
-                    </div>   
+                    </div>
                     <div class="col-12">
                         <label>* CURP:</label>
                         <input type="text" formControlName="curp" name="curp" class="form-control" placeholder="CURP">
-                    </div>  
-                    
+                    </div>
+
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['curp'].invalid && (registerForm.controls['curp'].dirty || registerForm.controls['curp'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['curp'].errors.required">
                                 Introducir curp del jugador
                             </div>
                         </div>
-                    </div>               
+                    </div>
                     <!-- <div class="col-12">
                         <label>* Telefono:</label>
                         <input type="number" formControlName="telefono" name="telefono" class="form-control" placeholder="Telefono">
@@ -93,18 +84,18 @@
                     </div> -->
                     <div class="col-12">
                         <label>* Posición</label>
-                        <select class="form-select" formControlName="position" aria-label="Default select example" >
+                        <select class="form-select" formControlName="position" aria-label="Default select example">
                             <option value="0" selected>Seleccione una posición</option>
                             <option value="{{pos.attr2}}" *ngFor="let pos of positions">{{pos.value}}</option>
                           </select>
-                    </div>  
+                    </div>
                     <div class="col-12">
                         <div *ngIf="registerForm.controls['position'].invalid && (registerForm.controls['position'].dirty || registerForm.controls['position'].touched)" class="frm-err">
                             <div *ngIf="registerForm.controls['position'].errors.required">
                                 Introducir posición
                             </div>
                         </div>
-                    </div>   
+                    </div>
                     <div class="col-12">
                         <label>* Número:</label>
                         <input type="number" formControlName="number" name="number" class="form-control" placeholder="Número">
@@ -118,9 +109,9 @@
                     </div>
                     <div class="col-12">
                         <div *ngIf="incompleteFrm" class="frm-err">
-                                Favor de completar formulario
+                            Favor de completar formulario
                         </div>
-                    </div>  
+                    </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-dark float-end">Continuar</button>
                     </div>
@@ -128,4 +119,4 @@
             </div>
         </div>
     </div>
-  </div>
+</div>

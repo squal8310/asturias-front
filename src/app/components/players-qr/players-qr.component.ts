@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserLigue } from 'src/app/core/models/user-ligue.model';
-import { User } from 'src/app/core/models/user.model';
-import { UserLigueService } from 'src/app/core/services/user-ligue.service';
+import { Player } from 'src/app/core/models/player.model';
+import { PlayerService } from 'src/app/core/services/player.service';
 
 @Component({
   selector: 'app-players-qr',
@@ -11,10 +10,10 @@ import { UserLigueService } from 'src/app/core/services/user-ligue.service';
 })
 export class PlayersQrComponent implements OnInit {
 
-  userLigue: UserLigue= new UserLigue();
+  userLigue: Player= new Player();
   constructor(private route: ActivatedRoute,
               private navigation: Router,
-              private userLigueService: UserLigueService) { }
+              private userLigueService: PlayerService) { }
 
   ngOnInit(): void {
     this.route.queryParams

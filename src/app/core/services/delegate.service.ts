@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { URL, USERS_LIGUE_DB } from 'src/environments/environment';
-import { ClubCategory } from '../models/Club-Category.model';
-import { UserLigue } from '../models/user-ligue.model';
+import { Cat } from '../models/cat.model';
+import { Player } from '../models/player.model';
 import { User } from '../models/user.model';
 import { StorageService } from '../storage.service';
-import { FileUploadService } from './file-upload.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserLigueService {
+export class DelegateService {
 
   
   private user: User;
@@ -22,23 +18,6 @@ export class UserLigueService {
     this.user = this.stServ.getCurrentUser();
   }
 
-  setUserSession=()=>{
-    
-  }
-
-  getByUserDelegate=()=>{
-    
-    const tokendt = this.stServ.getCurrentSession();
-  
-     return fetch(`${URL}/api/delegates/get`, {
-       method: 'POST',
-       body: JSON.stringify({}),
-       headers: {
-         "Authorization": `Bearer ${tokendt.token}`,
-         "Content-Type": "application/json"
-       }
-     }); 
-  }
 
   get=(club:string)=>{
     
@@ -81,16 +60,16 @@ export class UserLigueService {
      }); 
   }
 
-  getByUserLogged = (mail:string): AngularFireList<UserLigue>=>{
-     return this.db.list(`${USERS_LIGUE_DB}`, ref=>ref.orderByChild('user').equalTo(`${mail}`));
+  getByUserLogged = (mail:string): AngularFireList<Player>=>{
+     return this.db.list(`DELEGATES`, ref=>ref.orderByChild('user').equalTo(`${mail}`));
   }
 
-  getAllPlayersByUser = (email: string): AngularFireList<UserLigue[]>=>{
+  getAllPlayersByUser = (email: string): AngularFireList<Player[]>=>{
     return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}`,
             ref=>ref.orderByChild('user').equalTo(`${email}`));
   }
 
-  removeUserLiguePlayer = (idUserToRemove:string): void=>{
+  removePlayerPlayer = (idUserToRemove:string): void=>{
     this.user = this.stServ.getCurrentUser();
     this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}/${idUserToRemove}`).remove();
   }
@@ -100,7 +79,7 @@ export class UserLigueService {
     this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}${idUserToRemove}`).remove();
   }
 
-  getPlayersByClubAndCategory = (club:string, cat:string, subcategoria1:string):  AngularFireList<UserLigue[]>=>{
+  getPlayersByClubAndCategory = (club:string, cat:string, subcategoria1:string):  AngularFireList<Player[]>=>{
   
     if(cat !== '0' && subcategoria1 === '0'){
       return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${club}`,
@@ -113,32 +92,37 @@ export class UserLigueService {
     }
   }
 
-  getClubAndCategory = (club:string): AngularFireList<UserLigue>=>{
+  getClubAndCategory = (club:string): AngularFireList<Player>=>{
     return this.db.list(`CLUBS_CATEGORIES/${club}`);
   }
 
-  saveUserPlayer=(form:NgForm, typeUser:number)=>{
-    let userLigue: UserLigue= new UserLigue();
-    let clubCategory: ClubCategory= new ClubCategory();
+  save=(form:NgForm, typeUser:number)=>{
+    
+   
+    let player: Player= new Player();
+    let cat: Cat = new Cat();
     let clubMayus =  this.stServ.getCurrentSession().user.club;
-    userLigue.cat = form.controls.category.value;
-    userLigue.subcategoria1 = form.controls.subCategory1.value != undefined ? form.controls.subCategory1.value : "";
-    userLigue.subcategoria2 = form.controls.subCategory2.value != undefined ? form.controls.subCategory2.value : "";
-    userLigue.subcategoria3 = form.controls.subCategory3.value != undefined ? form.controls.subCategory3.value : "";
-    userLigue.club = clubMayus;
-    userLigue.name = form.controls.name.value;
-    userLigue.lastName = form.controls.lastName.value;
-    userLigue.curp = form.controls.curp.value;
-    userLigue.position = form.controls.position.value;
-    userLigue.noPlayer = form.controls.number.value;
-    userLigue.tipo = typeUser;
-    userLigue.dateBirth = form.controls.dateBirth.value;
-    userLigue.rol = 'PLAYER';
-    userLigue.user = this.stServ.getCurrentSession().user.email;
-    clubCategory.category = form.controls.category.value;
-    clubCategory.subCategory1 = form.controls.subCategory1.value;
-    this.db.list(`CLUBS_CATEGORIES/${clubMayus}/${form.controls.category.value}`).push(clubCategory);
-    return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${clubMayus}`).push(userLigue);
+    cat.id = form.controls.category.value.split("-")[0];
+    cat.name = form.controls.category.value.split("-")[1];
+    if( form.controls.subCategory1.value.split("-")[1] != undefined ) {
+        let subCat: Cat = new Cat();
+        subCat.id = form.controls.subCategory1.value.split("-")[0] != undefined ? form.controls.subCategory1.value.split("-")[0] : "";
+        subCat.name = form.controls.subCategory1.value.split("-")[1]; 
+        cat.subCat1 = subCat;
+        player.cat = cat;
+    }
+        console.log("SUBCAT: ", Player);
+    player.club = clubMayus;
+    player.name = form.controls.name.value;
+    player.lastName = form.controls.lastName.value;
+    player.curp = form.controls.curp.value;
+    player.position = form.controls.position.value;
+    player.noPlayer = form.controls.number.value;
+    player.tipo = typeUser;
+    player.dateBirth = form.controls.dateBirth.value;
+    player.rol = 'PLAYER';
+    player.user = this.stServ.getCurrentSession().user.email;
+     return this.db.list(`PLAYERS/${clubMayus}/${form.controls.category.value.split("-")[0]}`).push(Player);
   }
 
   

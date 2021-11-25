@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserLigue } from 'src/app/core/models/user-ligue.model';
+import { Player } from 'src/app/core/models/player.model';
 
 @Component({
   selector: 'app-credential',
@@ -9,7 +9,7 @@ import { UserLigue } from 'src/app/core/models/user-ligue.model';
 export class CredentialComponent implements OnInit {
 
   @Input()
-  public credentialp:UserLigue;
+  public credentialp:Player;
 
   constructor() { }
 

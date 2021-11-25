@@ -77,8 +77,9 @@ export class CatalogsServiceService {
       return this.db.list("MENU", ref=>ref.orderByChild('attr1').equalTo(category));
     }
 
-    getCatClub=():AngularFireList<Categories>=>{
-      return this.db.list("CATALOG/CLUBS", ref=>ref.limitToLast(10000));
+    saveClub=(clubKey: string, clubName: string):void=>{
+      let club = {key: clubKey, name: clubName};
+      this.db.list("CLUBS").push(club);
     }
 
 }

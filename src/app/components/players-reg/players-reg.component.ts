@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 import { map } from 'rxjs/operators';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
-import { UserLigueService } from 'src/app/core/services/user-ligue.service';
+import { PlayerService } from 'src/app/core/services/player.service';
 
 @Component({
   selector: 'app-players-reg',
@@ -33,7 +33,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   @ViewChild('fcCatego') fcCatego: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
-              private userLigueService: UserLigueService,
+              private userLigueService: PlayerService,
               private ngxSpin: NgxSpinnerService,
               private catServ: CatalogsServiceService,
               private toastr: ToastMessagesService) { 
@@ -91,8 +91,8 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
   changeCategoriesiF=(category:string, whatCatalog:number)=>{
     this.ngxSpin.show();  
-    
-    this.catServ.getCategoriesByCat(category).snapshotChanges().pipe(
+    let catSpl = category.split("-");
+    this.catServ.getCategoriesByCat(catSpl[0]).snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
@@ -138,7 +138,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
 
     if(this.registerForm.valid && !failSubcat1){
       this.ngxSpin.show();
-      this.userLigueService.saveUserPlayer(registerFormp, 1).then(playerSaved=>{
+      this.userLigueService.save(registerFormp, 1).then(playerSaved=>{
         console.log("player saved: ", playerSaved);
         this.toastr.showSuccess("Registro guardado correctamente", "Info");
       });

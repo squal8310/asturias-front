@@ -10,9 +10,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { UserLigue } from 'src/app/core/models/user-ligue.model';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
-import { Club } from 'src/app/core/models/club.model';
+import { Delegate } from 'src/app/core/models/delegate.model';
+import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
+import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 
 
 
@@ -45,7 +46,9 @@ export class LoginComponent implements OnInit {
               private ngxSpin: NgxSpinnerService,
               private ngZone: NgZone,
               private toastMessg: ToastMessagesService,
-              private storageService: StorageService) { 
+              private storageService: StorageService,
+              private registerDelegateServ: RegisterDelegatesService,
+              private catalogos: CatalogsServiceService) { 
                
               }
 
@@ -162,20 +165,22 @@ export class LoginComponent implements OnInit {
       proccessRegisterUser=()=>{
         return new Promise((resolve, reject)=>{
           this.afAuth.createUserWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password).then((cred) => {
-            let userLigue: UserLigue= new UserLigue();
+            let delegate: Delegate= new Delegate();
             let pathCLub = this.loginForm.value.club.toUpperCase().replace(/[\W_]/g,'_');
-            userLigue.club = pathCLub;
-            userLigue.user = this.loginForm.value.email;
-            userLigue.tipo = 2;      
-            userLigue.rol = 'DELEGATE';
-
+            delegate.club = pathCLub;
+            delegate.user = this.loginForm.value.email;
+            delegate.rol = 'DELEGATE';
            
-            this.db.object(`USERS_LIGUE/${cred.user.uid}`).set(userLigue).then(upd=>{
+            this.registerDelegateServ.save(cred, delegate).then(upd=>{
               this.saveDataUserToSession(pathCLub, cred.user.uid, this.loginForm.value.email);
               resolve(4);
+              this.catalogos.saveClub(pathCLub, this.loginForm.value.club);
               this.ngxSpin.hide();
               this.router.navigate(['/home']);
             });
+
+
+
            }).catch(({code}) => {
              reject(`promesa 4 fallo:  ${code}`);
              if(code == "auth/email-already-in-use"){

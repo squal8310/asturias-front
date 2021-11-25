@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs/operators';
 import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
-import { UserLigueService } from 'src/app/core/services/user-ligue.service';
+import { PlayerService } from 'src/app/core/services/player.service';
 import { StorageService } from 'src/app/core/storage.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class CredentialsFiltersComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private userLigueService: UserLigueService,
+    private userLigueService: PlayerService,
     private toastr: ToastMessagesService,
     private ngxSpin: NgxSpinnerService,
     private catServ: CatalogsServiceService,
