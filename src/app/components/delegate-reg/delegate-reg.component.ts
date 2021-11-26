@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { moment } from 'ngx-bootstrap/chronos/testing/chain';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 import { CommonServiceService } from 'src/app/core/services/common-service.service';
 import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
@@ -27,7 +27,7 @@ export class DelegateRegComponent implements OnInit {
   public catClub: [] = [];
 
   constructor(private formBuilder: FormBuilder, 
-              private catServ: CatalogsServiceService,
+              private catServ: CatalogsService,
               private commonServ: CommonServiceService<string>,
               private router: Router, 
               private regDelegate: RegisterDelegatesService,

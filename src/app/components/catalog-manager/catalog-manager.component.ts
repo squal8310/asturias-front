@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class CatalogManagerComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private toastr: ToastMessagesService,
               private ngxSpin: NgxSpinnerService,
-              private catalogService: CatalogsServiceService) { }
+              private catalogService: CatalogsService) { }
 
   ngOnInit(): void {
     this.initForm();

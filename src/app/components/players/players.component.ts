@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { StorageService } from 'src/app/core/storage.service';
 
@@ -38,14 +38,14 @@ export class PlayersComponent implements OnInit {
               private userLigueService:PlayerService,
               private toastr: ToastMessagesService,
               private ngxSpin: NgxSpinnerService,
-              private catServ: CatalogsServiceService,
+              private catServ: CatalogsService,
               private stServ: StorageService) { }
 
 
   ngOnInit(): void {
     this.initPlayers();
     this.initForm();
-    this.initCategories();
+    //this.initCategories();
   }
 
   initForm=()=>{
@@ -80,7 +80,9 @@ export class PlayersComponent implements OnInit {
   }
 
   initCategories=()=>{
-    this.catServ.getCategories().snapshotChanges().pipe(
+    //this.stServ.getCurrentSession().user.club
+    this.catServ.getCategories()
+    .snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))

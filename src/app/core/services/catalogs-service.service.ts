@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { NgForm } from '@angular/forms';
+import { map } from 'rxjs/operators';
 import { URL } from 'src/environments/environment';
+import { Cat } from '../models/cat.model';
 import { Catalog } from '../models/catalog.model';
 import { Categories } from '../models/categories.model';
 import { User } from '../models/user.model';
@@ -10,7 +12,7 @@ import { StorageService } from '../storage.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CatalogsServiceService {
+export class CatalogsService {
  
 
   public user:User;
@@ -61,12 +63,20 @@ export class CatalogsServiceService {
     }); 
   }
 
-  getCategories=():AngularFireList<Categories>=>{
-       return this.db.list(`CATEGORIES`, ref=>ref.orderByChild('attr1').equalTo('10000'));
-    }
-
   getPositions=():AngularFireList<Categories>=>{
-      return this.db.list(`POSITIONS`, ref=>ref.limitToLast(100));
+    return this.db.list(`POSITIONS`, ref=>ref.limitToLast(100));
+ }
+
+ getCategories=():AngularFireList<Categories>=>{
+  return this.db.list(`CATEGORIES`, ref=>ref.orderByChild('attr1').equalTo('10000'));
+}
+
+ getCategories2=(clubSing: string):AngularFireList<Cat>=>{
+  return this.db.list(`PLAYERS/${clubSing}/CATEGORIES`);
+ }
+
+  getClubs=():AngularFireList<Cat>=>{
+      return this.db.list(`CLUBS`, ref=>ref.limitToLast(100));
    }
 
    getCategoriesByCat=(category:string):AngularFireList<Categories>=>{

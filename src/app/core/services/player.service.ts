@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { NgForm } from '@angular/forms';
 import { URL, USERS_LIGUE_DB } from 'src/environments/environment';
 import { Cat } from '../models/cat.model';
@@ -65,7 +65,7 @@ export class PlayerService {
   }
 
   getAllPlayersByUser = (email: string): AngularFireList<Player[]>=>{
-    return this.db.list(`${USERS_LIGUE_DB}/PLAYER/${this.stServ.getCurrentSession().user.club}`,
+    return this.db.list(`PLAYERS/${this.stServ.getCurrentSession().user.club}/*`,
             ref=>ref.orderByChild('user').equalTo(`${email}`));
   }
 
@@ -96,11 +96,13 @@ export class PlayerService {
     return this.db.list(`CLUBS_CATEGORIES/${club}`);
   }
 
+  category: AngularFireObject<any>;
   save=(form:NgForm, typeUser:number)=>{
         let player: Player= new Player();
     let cat: Cat = new Cat();
     let clubMayus =  this.stServ.getCurrentSession().user.club;
-    cat.id = form.controls.category.value.split("-")[0];
+    cat.id = this.db.createPushId();
+    cat._id = form.controls.category.value.split("-")[0];
     cat.name = form.controls.category.value.split("-")[1];
     if( form.controls.subCategory1.value.split("-")[1] != undefined ) {
         let subCat: Cat = new Cat();
@@ -120,7 +122,17 @@ export class PlayerService {
     player.dateBirth = form.controls.dateBirth.value;
     player.rol = 'PLAYER';
     player.user = this.stServ.getCurrentSession().user.email;
-     return this.db.list(`PLAYERS/${clubMayus}/${form.controls.category.value.split("-")[0]}`).push(player);
+    
+    // db: AngularFireDatabase
+    const tutRef = this.db.list(`PLAYERS/${clubMayus}/CATEGORIES`,
+    ref=>ref.orderByChild('_id').equalTo('10003'));
+    console.log( "CAT_UP", tutRef );
+
+
+
+    tutRef.update();
+    //this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${form.controls.category.value.split("-")[0]}`).push(cat)
+     return this.db.list(`PLAYERS/${clubMayus}`).push(player);
   }
 
   

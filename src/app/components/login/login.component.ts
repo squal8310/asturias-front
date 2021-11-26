@@ -13,7 +13,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 import { Delegate } from 'src/app/core/models/delegate.model';
 import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 
 
 
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
               private toastMessg: ToastMessagesService,
               private storageService: StorageService,
               private registerDelegateServ: RegisterDelegatesService,
-              private catalogos: CatalogsServiceService) { 
+              private catalogos: CatalogsService) { 
                
               }
 

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map } from 'rxjs/operators';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { StorageService } from 'src/app/core/storage.service';
@@ -32,7 +32,7 @@ export class CredentialsFiltersComponent implements OnInit {
     private userLigueService: PlayerService,
     private toastr: ToastMessagesService,
     private ngxSpin: NgxSpinnerService,
-    private catServ: CatalogsServiceService,
+    private catServ: CatalogsService,
     private stServ: StorageService,
     private router: Router
   ) { }
@@ -67,7 +67,7 @@ export class CredentialsFiltersComponent implements OnInit {
   }
 
   initClubs = () => {
-    this.catServ.getCatClub().snapshotChanges().pipe(
+    this.catServ.getClubs().snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))

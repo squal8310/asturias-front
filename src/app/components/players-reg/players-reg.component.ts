@@ -1,16 +1,10 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CatalogsServiceService } from 'src/app/core/services/catalogs-service.service';
-import { CommonServiceService } from 'src/app/core/services/common-service.service';
-import * as moment from 'moment';
-import { RegisterDelegatesService } from 'src/app/core/services/register-delegates.service';
-import { Categories } from 'src/app/core/models/categories.model';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CategoriesService } from 'src/app/core/services/categories.service';
 import { map } from 'rxjs/operators';
 import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 import { PlayerService } from 'src/app/core/services/player.service';
+import { CatalogsService } from 'src/app/core/services/catalogs-service.service';
 
 @Component({
   selector: 'app-players-reg',
@@ -35,7 +29,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   constructor(private formBuilder: FormBuilder,
               private userLigueService: PlayerService,
               private ngxSpin: NgxSpinnerService,
-              private catServ: CatalogsServiceService,
+              private catServ: CatalogsService,
               private toastr: ToastMessagesService) { 
                 // this.cat.saveCatalogs();
               }
