@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { NgForm } from '@angular/forms';
+import { map } from 'rxjs/operators';
 import { URL, USERS_LIGUE_DB } from 'src/environments/environment';
 import { Cat } from '../models/cat.model';
 import { Player } from '../models/player.model';
@@ -124,13 +125,17 @@ export class PlayerService {
     player.user = this.stServ.getCurrentSession().user.email;
     
     // db: AngularFireDatabase
-    const tutRef = this.db.list(`PLAYERS/${clubMayus}/CATEGORIES`,
-    ref=>ref.orderByChild('_id').equalTo('10003'));
+    const tutRef = this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${cat._id}`,ref=>ref.orderByChild('_id').equalTo(cat._id));
     console.log( "CAT_UP", tutRef );
 
+    tutRef.snapshotChanges().pipe(
+      map(changes =>
+        // store the key
+        changes.map(c => { tutRef.update( c.payload.key, { _id: '10004'} );})
+      )
+      );
 
-
-    tutRef.update();
+   
     //this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${form.controls.category.value.split("-")[0]}`).push(cat)
      return this.db.list(`PLAYERS/${clubMayus}`).push(player);
   }
