@@ -10,6 +10,7 @@ import { AdComponentService } from 'src/app/core/services/ad-component.service';
 import { MenuByRolService } from 'src/app/core/services/menu-by-rol.service';
 import { DelegateService } from 'src/app/core/services/delegate.service';
 import { StorageService } from 'src/app/core/storage.service';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 
 @Component({
@@ -36,10 +37,21 @@ export class HomeComponent implements OnInit {
               private menuServ: MenuByRolService,
               private componentFactoryResolver: ComponentFactoryResolver,
               private adsItems: AdComponentService,
-              private stServ: StorageService) {
+              private stServ: StorageService,
+              private db: AngularFireDatabase) {
                }
 
   ngOnInit() {
+     // db: AngularFireDatabase
+    //  let tutRef = this.db.list(`PLAYERS/SN_PA_CHE/CATEGORIES/10003`,
+    //  ref=>ref.orderByChild('_id').equalTo('10003'));
+
+    //  tutRef
+    //  .valueChanges().pipe(
+    //          map(changes =>
+    //            changes.map(c =>tutRef.update( c.payload.key, { _id: '10004'} ))
+    //          )
+    // );
     this.menusByRol = [];
     this.userLigue = [];
     let user = this.storageService.getCurrentSession().user.email;

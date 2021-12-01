@@ -10,7 +10,6 @@ export class Player {
 	noPlayer: number= 0;
 	position: number= 0;
 	cat: Cat;
-	tipo: number = 0;
 	dateReg: string;
 	dateBirth: string;
 	user: string;

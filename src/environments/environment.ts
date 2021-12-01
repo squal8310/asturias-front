@@ -8,6 +8,7 @@ export const firebasedata = {
     firebaseConfig: {
         apiKey: "AIzaSyAnpXQSRrgLuBpQtz-etvQD1TagrzzEU_0",
         authDomain: "asturiasfire.firebaseapp.com",
+        databaseURL: "https://asturiasfire-default-rtdb.firebaseio.com",
         projectId: "asturiasfire",
         storageBucket: "asturiasfire.appspot.com",
         messagingSenderId: "27273231144",

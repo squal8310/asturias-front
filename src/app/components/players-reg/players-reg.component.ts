@@ -17,35 +17,37 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
   maxDate: "1990-08-14";//moment().subtract(5, "year").format("DD-MM-YYYY");
   public registerForm: FormGroup;
   public incompleteFrm: Boolean = false;
-  public error: {code: number, message: string} = null;
+  public error: { code: number, message: string } = null;
   public catalogsJson?: any[];
   public subCatalog1?: any[];
   public subCatalog2?: any[];
   public subCatalog3?: any[];
   public positions?: any[];
-  public subCat1Val:string = "0";
+  public catData?: any[];
+  public subCat1Val: string = "0";
+  public idCate: string;
   @ViewChild('fcCatego') fcCatego: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
-              private userLigueService: PlayerService,
-              private ngxSpin: NgxSpinnerService,
-              private catServ: CatalogsService,
-              private toastr: ToastMessagesService) { 
-                // this.cat.saveCatalogs();
-              }
-  ngAfterViewInit(): void {
-    
+    private userLigueService: PlayerService,
+    private ngxSpin: NgxSpinnerService,
+    private catServ: CatalogsService,
+    private toastr: ToastMessagesService) {
+    // this.cat.saveCatalogs();
   }
- 
+  ngAfterViewInit(): void {
+
+  }
+
   ngOnInit(): void {
 
-    
+
     this.initForm();
     this.initCategories();
     this.initPositions();
   }
 
-  initForm=()=>{
+  initForm = () => {
     this.registerForm = this.formBuilder.group({
       category: ['', Validators.required],
       subCategory1: [''],
@@ -53,7 +55,7 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
       subCategory3: [''],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
-      curp: ['', Validators.required], 
+      curp: ['', Validators.required],
       position: ['', Validators.required],
       number: ['', Validators.required],
       dateBirth: ['', Validators.required]
@@ -61,89 +63,102 @@ export class PlayersRegComponent implements OnInit, AfterViewInit {
     });
   }
 
-  initCategories=()=>{
+  initCategories = () => {
     this.catServ.getCategories().snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
       )
-      ).subscribe(values=>{
-      this.catalogsJson=values;
+    ).subscribe(values => {
+      this.catalogsJson = values;
     });
   }
-  
-  initPositions=()=>{
+
+  initPositions = () => {
     this.catServ.getPositions().snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
-      ).subscribe(values=>{
-      this.positions=values;
+    ).subscribe(values => {
+      this.positions = values;
     });
   }
 
-  changeCategoriesiF=(category:string, whatCatalog:number)=>{
-    this.ngxSpin.show();  
+  changeCategoriesiF = (category: string, whatCatalog: number) => {
+    this.ngxSpin.show();
     let catSpl = category.split("-");
     this.catServ.getCategoriesByCat(catSpl[0]).snapshotChanges().pipe(
       map(changes =>
         // store the key
         changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
       )
-      ).subscribe(values=>{
-      switch(whatCatalog){
+    ).subscribe(values => {
+
+
+
+      this.userLigueService.getCategoryPlayer(catSpl[0]).snapshotChanges().pipe(
+        map(changes =>
+          // store the key
+          changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
+        )
+      ).subscribe(vls => {
+        vls.forEach(el => this.idCate = el.$key);
+
+      });
+
+      switch (whatCatalog) {
         case 1:
-          if(values.length > 0){
+          if (values.length > 0) {
             this.subCatalog1 = values;
-            
-          }else{
+
+          } else {
             this.subCatalog1 = [];
           }
-        break;
+          break;
         case 2:
-            this.subCat1Val = category;
-          if(values.length > 0){
+          this.subCat1Val = category;
+          if (values.length > 0) {
             this.subCatalog2 = values;
-          }else{
+          } else {
             this.subCatalog2 = [];
           }
-        break;
+          break;
         case 3:
-          if(values.length > 0){
+          if (values.length > 0) {
             this.subCatalog3 = values;
-          }else{
+          } else {
             this.subCatalog3 = [];
           }
-        break;
+          break;
       }
-      this.ngxSpin.hide();    
+      this.ngxSpin.hide();
     });
   }
 
 
 
-  submitregister=(registerFormp)=>{
+  submitregister = (registerFormp) => {
     let failSubcat1 = false;
-    if(this.isNotSelectedSubCat()){
+    if (this.isNotSelectedSubCat()) {
       this.toastr.showFail("Favor de seleccionar una subcategoría", "Error subcategoría");
       failSubcat1 = true;
     }
 
-    if(this.registerForm.valid && !failSubcat1){
+    if (this.registerForm.valid && !failSubcat1) {
       this.ngxSpin.show();
-      this.userLigueService.save(registerFormp, 1).then(playerSaved=>{
-        console.log("player saved: ", playerSaved);
-        this.toastr.showSuccess("Registro guardado correctamente", "Info");
-      });
-    }else{
-      this.incompleteFrm = true;
+      this.userLigueService.save(registerFormp, this.idCate);
+      //   .then(playerSaved=>{
+      //     this.toastr.showSuccess("Registro guardado correctamente", "Info");
+      //   });
+      // }else{
+      //   this.incompleteFrm = true;
     }
   }
 
-  isEmptySubCat=()=>{return this.subCatalog1 == undefined ||  this.subCatalog1 == null ||  this.subCatalog1.length == 0}
+  isEmptySubCat = () => { return this.subCatalog1 == undefined || this.subCatalog1 == null || this.subCatalog1.length == 0 }
 
-  isNotSelectedSubCat=()=>{return this.subCatalog1.length > 0 && this.subCat1Val == "0"}
+  isNotSelectedSubCat = () => { return this.subCatalog1.length > 0 && this.subCat1Val == "0" }
 
 }
 

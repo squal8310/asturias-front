@@ -118,7 +118,6 @@ export class DelegateService {
     player.curp = form.controls.curp.value;
     player.position = form.controls.position.value;
     player.noPlayer = form.controls.number.value;
-    player.tipo = typeUser;
     player.dateBirth = form.controls.dateBirth.value;
     player.rol = 'PLAYER';
     player.user = this.stServ.getCurrentSession().user.email;
