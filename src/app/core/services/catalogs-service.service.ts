@@ -71,8 +71,8 @@ export class CatalogsService {
   return this.db.list(`CATEGORIES`, ref=>ref.orderByChild('attr1').equalTo('10000'));
 }
 
- getCategories2=(clubSing: string):AngularFireList<Cat>=>{
-  return this.db.list(`PLAYERS/${clubSing}/CATEGORIES`);
+ getCategoriesFilter=(club:string):AngularFireList<Cat>=>{
+  return this.db.list(`PLAYERS/${club}/CATEGORIES`);
  }
 
   getClubs=():AngularFireList<Cat>=>{

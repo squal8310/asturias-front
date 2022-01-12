@@ -40,7 +40,6 @@ export class CredentialsFiltersComponent implements OnInit {
   ngOnInit(): void {
 
     this.initForm();
-    this.initCategories();
     this.initClubs();
   }
 
@@ -52,17 +51,6 @@ export class CredentialsFiltersComponent implements OnInit {
       subCategory3: [''],
       club: ['']
 
-    });
-  }
-
-  initCategories = () => {
-    this.catServ.getCategories().snapshotChanges().pipe(
-      map(changes =>
-        // store the key
-        changes.map(c => ({ $key: c.payload.key, ...c.payload.val() }))
-      )
-    ).subscribe(values => {
-      this.catalogsJson = values;
     });
   }
 
@@ -86,7 +74,17 @@ export class CredentialsFiltersComponent implements OnInit {
   }
 
   onChangeClub = (val: string) => {
-    this.clubVal = val;
+    console.log("on changeclub:  ", val);
+    this.catServ.getCategoriesFilter(val).snapshotChanges().pipe(
+      map(changes =>
+        // store the key
+        changes.map(c => ({ $key: c.payload.key, ...c.payload.val()}))
+      )
+    ).subscribe(values => {
+      this.catalogsJson = values;
+
+      console.log("The catalogs:  ", this.catalogsJson);
+    });
   }
 
   filterData = () => {

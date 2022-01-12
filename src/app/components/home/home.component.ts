@@ -42,16 +42,6 @@ export class HomeComponent implements OnInit {
                }
 
   ngOnInit() {
-     // db: AngularFireDatabase
-    //  let tutRef = this.db.list(`PLAYERS/SN_PA_CHE/CATEGORIES/10003`,
-    //  ref=>ref.orderByChild('_id').equalTo('10003'));
-
-    //  tutRef
-    //  .valueChanges().pipe(
-    //          map(changes =>
-    //            changes.map(c =>tutRef.update( c.payload.key, { _id: '10004'} ))
-    //          )
-    // );
     this.menusByRol = [];
     this.userLigue = [];
     let user = this.storageService.getCurrentSession().user.email;

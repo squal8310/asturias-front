@@ -96,12 +96,11 @@ export class PlayerService {
   save = (form: NgForm, isCategory: string) => {
     let player: Player = new Player();
     let cat: Cat = new Cat();
+    let subCat: Cat = new Cat();
     let clubMayus = this.stServ.getCurrentSession().user.club;
-    cat.id = this.db.createPushId();
     cat._id = form.controls.category.value.split("-")[0];
     cat.name = form.controls.category.value.split("-")[1];
     if (form.controls.subCategory1.value.split("-")[1] != undefined) {
-      let subCat: Cat = new Cat();
       subCat.id = form.controls.subCategory1.value.split("-")[0] != undefined ? form.controls.subCategory1.value.split("-")[0] : "";
       subCat.name = form.controls.subCategory1.value.split("-")[1];
       cat.subCat1 = subCat;
@@ -121,19 +120,16 @@ export class PlayerService {
       const tutRef = this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${cat._id}`,ref=>ref.orderByChild('_id').equalTo(cat._id));
       tutRef.update( isCategory, { _id: cat._id} );
     }else{
-      this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${form.controls.category.value.split("-")[0]}`).push(cat)
+      const obtsv = this.db.object(`PLAYERS/${clubMayus}/CATEGORIES/${form.controls.category.value.split("-")[0]}`);
+      obtsv.set(cat);
     }
    
     return this.db.list(`PLAYERS/${clubMayus}`).push(player);
   }
-
-
-
+  
   getCategoryPlayer=(id: string): AngularFireList<Cat[]> => {
     let clubMayus = this.stServ.getCurrentSession().user.club;
       return this.db.list(`PLAYERS/${clubMayus}/CATEGORIES/${id}`,
       ref => ref.orderByChild('_id').equalTo(id));
   }
-
-
 }
